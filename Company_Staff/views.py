@@ -488,4 +488,19 @@ def staff_password_change(request):
 # -------------------------------Zoho Modules section--------------------------------
 #------------------------------------payroll employee--------------------------------
 def payroll_employee(request):
-    return render(request,'zohomodules/payroll-employee/payroll_create_employee.html')
+    if 'login_id' in request.session:
+        log_id = request.session['login_id']
+        if 'login_id' not in request.session:
+            return redirect('/')
+    log_details= LoginDetails.objects.get(id=log_id)
+    dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
+    allmodules= ZohoModules.objects.get(company=dash_details,status='New')
+    content = {
+            'details': dash_details,
+            'allmodules': allmodules,
+    }
+    return render(request,'zohomodules/payroll-employee/payroll_create_employee.html',content)
+def employee_list(request):
+    return render(request,'zohomodules/payroll-employee/payroll_list.html')
+def employee_overview(request):
+    return render(request,'zohomodules/payroll-employee/overview_page.html')

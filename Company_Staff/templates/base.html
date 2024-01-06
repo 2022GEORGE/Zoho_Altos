@@ -570,8 +570,10 @@
                 <a href="" class="d-flex align-items-center gap-2 dropdown-item">
                   <!-- <i class="ti ti-mail fs-6"></i> -->
                   <div class="d-flex">
-                    <p class="mb-0 fs-3">Employees</p>
-                    <a href="{% url 'payroll_employee' %}"><i class="fa fa-plus text-white" ></i></a>
+                    <a class="d-inline-block" style="color: #ffffff"
+                                        href="{% url 'employee_list' %}">Employees</a>
+                    <a href="{% url 'payroll_employee' %}" class="d-inline-block"> <span 
+                      style="text-align: right; width: 25px;"><i class="fa fa-plus text-white " ></i></a></span>
                   </div>
                  
                 </a>

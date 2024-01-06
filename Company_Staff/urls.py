@@ -38,4 +38,6 @@ urlpatterns = [
     # -------------------------------Zoho Modules section--------------------------------
     #---------------------------------Payroll employee-----------------------------------
     path('Company/payroll_employee',views.payroll_employee,name='payroll_employee'),
+    path('Company/payroll_employee_list',views.employee_list,name='employee_list'),
+    path('Company/payroll_employee_overview',views.employee_overview,name='employee_overview'),
 ]

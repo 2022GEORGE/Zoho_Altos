@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from Register_Login.models import LoginDetails,CompanyDetails
 
 # Create your models here.
 
@@ -19,6 +20,7 @@ class paryroll_employee(models.Model):
     location = models.CharField(max_length=100,null=True)
     gender = models.CharField(max_length=100,null=True)
     dob=models.DateField(null=True)
+    age = models.PositiveIntegerField(default=0)
     blood = models.CharField(max_length=10,null=True)
     parent = models.CharField(max_length=100,null=True)
     spouse_name = models.CharField(max_length=100,null=True)
@@ -27,15 +29,28 @@ class paryroll_employee(models.Model):
     Phone = models.BigIntegerField(null=True)
     emergency_phone = models.BigIntegerField(null=True ,blank=True,default=1)
     email = models.EmailField(max_length=255,null=True)
-    ITN = models.CharField(max_length=255,null=True)
+    Income_tax_no = models.CharField(max_length=255,null=True)
     Aadhar = models.CharField(max_length=250,default='')
     UAN = models.CharField(max_length=255,null=True)
     PFN = models.CharField(max_length=255,null=True)
     PRAN = models.CharField(max_length=255,null=True)
     status=models.CharField(max_length=200,default='Active')
     isTDS=models.CharField(max_length=200,null=True)
-    TDS = models.IntegerField(null=True,default=0)
-    age = models.PositiveIntegerField(default=0)
+    TDS_percentage = models.IntegerField(null=True,default=0)
     salaryrange = models.CharField(max_length=10, choices=[('1-10', '1-10'), ('10-15', '10-15'), ('15-31', '15-31')], default='1-10')
     amountperhr = models.CharField(max_length=100,null=True)
     workhr = models.CharField(max_length=100,null=True)
+    uploaded_file=models.FileField(upload_to="images/",null=True)
+    company=models.ForeignKey(CompanyDetails,on_delete=models.CASCADE,null=True)
+    login_details=models.ForeignKey(LoginDetails,on_delete=models.CASCADE,null=True)
+    acc_no = models.BigIntegerField()  
+    IFSC = models.CharField(max_length=100)
+    bank_name = models.CharField(max_length=100)
+    branch = models.CharField(max_length=100)
+    transaction_type = models.CharField(max_length=100)
+class employee_history(models.Model):
+    company=models.ForeignKey(CompanyDetails,on_delete=models.CASCADE,null=True)
+    login_details=models.ForeignKey(LoginDetails,on_delete=models.CASCADE,null=True)
+    employee=models.ForeignKey(paryroll_employee,on_delete=models.CASCADE,null=True)
+    Date=models.DateField(null=True,auto_now=True)
+    Action=models.CharField(null=True,max_length=255)
