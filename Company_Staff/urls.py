@@ -37,7 +37,10 @@ urlpatterns = [
 
     # -------------------------------Zoho Modules section--------------------------------
     #---------------------------------Payroll employee-----------------------------------
-    path('Company/payroll_employee',views.payroll_employee,name='payroll_employee'),
+    path('Company/payroll_employee_create',views.payroll_employee_create,name='payroll_employee_create'),
     path('Company/payroll_employee_list',views.employee_list,name='employee_list'),
-    path('Company/payroll_employee_overview',views.employee_overview,name='employee_overview'),
+    path('Company/payroll_employee_overview/<int:pk>',views.employee_overview,name='employee_overview'),
+    path('Company/create_employee',views.create_employee,name='create_employee'),
+    path('Company/payroll_employee_edit/<int:pk>',views.payroll_employee_edit,name='payroll_employee_edit'),
+    
 ]

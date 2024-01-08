@@ -5,8 +5,7 @@ from Register_Login.models import LoginDetails,CompanyDetails
 # Create your models here.
 
 #---------------- models for zoho modules--------------------
-class paryroll_employee(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
+class payroll_employee(models.Model):
     title = models.CharField(max_length=100,null=True)
     first_name = models.CharField(max_length=100,null=True)
     last_name = models.CharField(max_length=100,null=True)
@@ -51,6 +50,6 @@ class paryroll_employee(models.Model):
 class employee_history(models.Model):
     company=models.ForeignKey(CompanyDetails,on_delete=models.CASCADE,null=True)
     login_details=models.ForeignKey(LoginDetails,on_delete=models.CASCADE,null=True)
-    employee=models.ForeignKey(paryroll_employee,on_delete=models.CASCADE,null=True)
+    employee=models.ForeignKey(payroll_employee,on_delete=models.CASCADE,null=True)
     Date=models.DateField(null=True,auto_now=True)
     Action=models.CharField(null=True,max_length=255)

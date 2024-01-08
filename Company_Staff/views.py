@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.conf import settings
 from datetime import date
 from datetime import datetime, timedelta
-
+from Company_Staff.models import *
 # Create your views here.
 
 
@@ -487,7 +487,7 @@ def staff_password_change(request):
 
 # -------------------------------Zoho Modules section--------------------------------
 #------------------------------------payroll employee--------------------------------
-def payroll_employee(request):
+def payroll_employee_create(request):
     if 'login_id' in request.session:
         log_id = request.session['login_id']
         if 'login_id' not in request.session:
@@ -501,6 +501,126 @@ def payroll_employee(request):
     }
     return render(request,'zohomodules/payroll-employee/payroll_create_employee.html',content)
 def employee_list(request):
-    return render(request,'zohomodules/payroll-employee/payroll_list.html')
-def employee_overview(request):
-    return render(request,'zohomodules/payroll-employee/overview_page.html')
+    if 'login_id' in request.session:
+        log_id = request.session['login_id']
+        if 'login_id' not in request.session:
+            return redirect('/')
+    log_details= LoginDetails.objects.get(id=log_id)
+    dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
+    allmodules= ZohoModules.objects.get(company=dash_details,status='New')
+    pay=payroll_employee.objects.filter(login_details=log_details)
+    content = {
+            'details': dash_details,
+            'allmodules': allmodules,
+            'pay':pay
+    }
+    return render(request,'zohomodules/payroll-employee/payroll_list.html',content)
+def employee_overview(request,pk):
+    if 'login_id' in request.session:
+        log_id = request.session['login_id']
+        if 'login_id' not in request.session:
+            return redirect('/')
+    log_details= LoginDetails.objects.get(id=log_id)
+    dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
+    allmodules= ZohoModules.objects.get(company=dash_details,status='New')
+    pay=payroll_employee.objects.filter(id=pk)
+    p=payroll_employee.objects.get(id=pk)
+    content = {
+            'details': dash_details,
+            'allmodules': allmodules,
+            'pay':pay,
+            'p':p
+    }
+    return render(request,'zohomodules/payroll-employee/overview_page.html',content)
+def create_employee(request):
+    if request.method=='POST':
+        if 'login_id' in request.session:
+            log_id = request.session['login_id']
+        if 'login_id' not in request.session:
+            return redirect('/')
+        log_details= LoginDetails.objects.get(id=log_id)
+        dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)    
+        title=request.POST['title']
+        fname=request.POST['fname']
+        lname=request.POST['lname']
+        alias=request.POST['alias']
+        joindate=request.POST['joindate']
+        salarydate=request.POST['salary']
+        saltype=request.POST['saltype']
+        if (saltype == 'Fixed'):
+            salary=request.POST['fsalary']
+        else:
+            salary=request.POST['vsalary']
+        image=request.FILES.get('file')
+        if image == None:
+            image="image/img.png"
+        amountperhr=request.POST['amnthr']
+        workhr=request.POST['hours']
+        empnum=request.POST['empnum']
+        if payroll_employee.objects.filter(emp_number=empnum):
+            messages.info(request,'employee number all ready exists')
+            return redirect('payroll_employee_create')
+        designation = request.POST['designation']
+        location=request.POST['location']
+        gender=request.POST['gender']
+        dob=request.POST['dob']
+        blood=request.POST['blood']
+        fmname=request.POST['fm_name']
+        sname=request.POST['s_name']        
+        add1=request.POST['address']
+        add2=request.POST['address2']
+        address=add1+" "+add2
+        padd1=request.POST['paddress'] 
+        padd2=request.POST['paddress2'] 
+        paddress= padd1+padd2
+        phone=request.POST['phone']
+        ephone=request.POST['ephone']
+        if payroll_employee.objects.filter(Phone=phone) or  payroll_employee.objects.filter(emergency_phone=ephone):
+            messages.info(request,'Number Alreday exists already exists')
+            return redirect('payroll_employee_create')
+        email=request.POST['email']
+        if payroll_employee.objects.filter(email=email):
+            messages.info(request,'email already exists')
+            return redirect('payroll_employee_create')
+        isdts=request.POST['tds']
+        attach=request.FILES.get('attach')
+        if isdts == '1':
+            istdsval=request.POST['pora']
+            if istdsval == 'Percentage':
+                tds=request.POST['pcnt']
+            elif istdsval == 'Amount':
+                tds=request.POST['amnt']
+        else:
+            istdsval='No'
+            tds = 0
+        itn=request.POST['itn']
+        an=request.POST['an']        
+        uan=request.POST['uan'] 
+        pfn=request.POST['pfn']
+        pran=request.POST['pran']
+        age=request.POST['age']
+        bank=request.POST['bank']
+        accno=request.POST['acc_no']       
+        ifsc=request.POST['ifsc']       
+        bname=request.POST['b_name']       
+        branch=request.POST['branch']
+        ttype=request.POST['ttype']
+        payroll= payroll_employee(title=title,first_name=fname,last_name=lname,alias=alias,image=image,joindate=joindate,salary_type=saltype,salary=salary,age=age,
+                         emp_number=empnum,designation=designation,location=location, gender=gender,dob=dob,blood=blood,parent=fmname,spouse_name=sname,workhr=workhr,
+                         amountperhr = amountperhr, address=address,permanent_address=paddress ,Phone=phone,emergency_phone=ephone, email=email,Income_tax_no=itn,Aadhar=an,
+                         UAN=uan,PFN=pfn,PRAN=pran,uploaded_file=attach,isTDS=istdsval,TDS_percentage=tds,salaryrange = salarydate,acc_no=accno,IFSC=ifsc,bank_name=bname,branch=branch,transaction_type=ttype,company=dash_details,login_details=log_details)
+        payroll.save()
+        return redirect('payroll_employee_create')
+def payroll_employee_edit(request,pk):
+    if 'login_id' in request.session:
+        log_id = request.session['login_id']
+        if 'login_id' not in request.session:
+            return redirect('/')
+    log_details= LoginDetails.objects.get(id=log_id)
+    dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
+    allmodules= ZohoModules.objects.get(company=dash_details,status='New')
+    content = {
+            'details': dash_details,
+            'allmodules': allmodules,
+    }
+    return render(request,'zohomodules/payroll-employee/payroll_create_employee.html',content)
