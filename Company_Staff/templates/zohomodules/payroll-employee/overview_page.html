@@ -3,6 +3,7 @@
 {% load static %}
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <style>            
   body {
@@ -57,7 +58,20 @@
   tr.clickable {
     cursor: pointer;
   }
-
+  #content1{
+    top: 7rem; 
+    margin-left:17rem;
+  }
+ @media (max-width: 740px){
+  #content1{
+    top: 7rem; 
+    margin-left:0px;
+    width:30px;
+  }
+  /* #overviewdiv{
+    margin-left: 0px;
+  } */
+}
   @media print{
     body{
       visibility: hidden !important; /* hide everything in body when in print mode*/
@@ -89,17 +103,17 @@
 </style>
     
 <section >
-  <div class="row fixed-top  " style="top: 7rem; margin-left:17rem;">
-    <div class="col-md-12"  style="width: 100%;">
+  <div class="row fixed-top  " id="content1">
+    <div class="col-md-12">
       <div class="row">
-        <div class="col-md-3" style="border-right: 1px solid white; overflow-y: scroll; height: 84vh;">
+        <div class="col" style="border-right: 1px solid white; overflow-y: scroll; height: 84vh;">
           <div class="row">
             <div class="col-md-2">
               <a class="text-white" style="font-size: 1.5rem;">Employees</a>
             </div>
             <div class="col-md-6"></div>
             <div class="col-md-4">              
-              <a style="width: 4rem;height: 2rem; width: fit-content;" class="btn btn btn-outline-warning " href="{% url 'payroll_employee_create' %}"><i class="fa fa-plus ">New</i></a>
+              <a class="btn btn btn-outline-warning " href="{% url 'payroll_employee_create' %}"><i class="fa fa-plus "></i>New</a>
             </div>
             <div class="col-md-12">
               <input type="text" id="search" class="form-control bg-light text-dark mt-2 " placeholder="Search.." autocomplete="off">
@@ -152,23 +166,23 @@
           </div>
         </div> 
 
-        <div class="col-md-9 ml-1  mb-5 " id="overviewdiv">
-          <div class="row">
+        <div class="col-md-9 " id="overviewdiv">
+          <div class="row ">
             <div class="col-md-7" >
-              <a class="text-white" style="font-size: 1.5rem;"><h2>{{p.first_name}} {{p.last_name}}</h2></a>
+              <a class="text-white" style="font-size: 1.5rem;;"><h2 class="text-white">{{p.first_name}} {{p.last_name}}</h2></a>
             </div>
           </div>
           <div class="row">
             <div class="col-md-2" >
-              <a class="btn" style="background-color: chocolate; margin-right: 2vh;"><i class="fas fa-eye"></i> Overview</a>
+              <a class="btn" style="background-color:  #f8ac49; "><i class="fas fa-eye"></i> Overview</a>
             </div>
-            <div class="col-md-3"></div>
-            <div class="col-md-6" style="text-align: right; margin-left: 8vh;">
+            <div class="col-md-2"></div>
+            <div class="col-md-7" style="text-align: right; margin-left: 8vh;">
               <a href="{% url 'payroll_employee_edit' p.id %}"  class=" text-dark" >
                 <button class="btn btn-outline-warning"  title="Edit"><i class="fas fa-edit"></i></button>
               </a>
               <a  class="text-dark"  onclick="exportToPDF()" id="pdflink">
-                <button class="btn btn-outline-warning"  title="Pdf"><i class="fas fa-file-pdf-o"></i></button>
+                <button class="btn btn-outline-warning"  title="Pdf"><i class="fa-solid fa-file-pdf"></i></button>
               </a>
               <a class=" text-dark"  onclick="printSelectedArea()"  >
                 <button class="btn btn-outline-warning"  title="Print"> <i class="fas fa-print"></i> </button> 
@@ -204,10 +218,11 @@
               <input id="file-input" type="file" name="file" style="display:none;" onchange="uploadFile()">
               <a class="btn btn-outline-warning" href="" id="sts">{{p.status}}</a>
             </div>
+            
           </div><br>
 
-          <div id="printdiv" style="overflow-y: scroll; height: 70vh;">
-            <div class="row" id="div-to-pdf" style="background-color: #ffddb0; margin-left:1px; margin-right: 1rem;">
+          <div id="printdiv" style="overflow-y: scroll; height:70vh;">
+            <div class="row" id="div-to-pdf" style="background-color: #f8ac49; margin-left:1px; margin-right: 1rem; ">
               <br>
               <div class="row">
                 <div class="col-3 mt-3" >
@@ -229,21 +244,16 @@
                   <hr>
                 </h2>
               </div>
-              <div class="gen-info col-6 " style="padding-left: 3rem; ">
+              <div class="gen-info col-6  " style="padding-left: 3rem; ">
                 <div class="row mt-1">
                   <div class="col-2"></div>
                   <div class="col-6" style="text-align: center; ">
                     <a href=" " download>
-                      <img class="img-fluid" src="" alt="" width="119px" name="img">
+                      <img class="img-fluid" src="{% static 'images/payrollimg.png' %}" alt="" width="119px" name="img">
                       <br><br>
                       <p style="color: black;">{{p.title}} &nbsp;{{p.first_name}} &nbsp;{{p.last_name}}
-                        {% if p.alias %}
-                          <br>
-                        
-                        {% endif %}
                       </p>
                     </a>
-                    <div class="col-3"></div>
                   </div>
                 </div><br>
                 <div class="row mt-1">
@@ -252,21 +262,21 @@
                     <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.email}}</p>
                   </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mt-2">
                   <div class="col-5"><p class="text-dark" for="">Phone Number:</p></div>
                   <div class="col-7">
                     <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.Phone}}</p>
                   </div>
                 </div>
                 {% if p.emergency_phone %}
-                  <div class="row mt-3">
+                  <div class="row mt-2">
                     <div class="col-5"><p class="text-dark" for="">Emergency Number :</p></div>
                     <div class="col-7">
                       <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.emergency_phone}}</p>
                     </div>
                   </div>
                 {% endif %}
-                <div class="row mt-3">
+                <div class="row mt-2">
                   <div class="col-5"><p class="text-dark" for="">Location :</p></div>
                   <div class="col-7">
                     <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.location}}</p>
@@ -275,61 +285,61 @@
                 <div class="h3 mt-4 text-black">Personal info
                   <hr>
                 </div>
-                <div class="row mt-3">
+                <div class="row mt-2">
                   <div class="col-5"><p class="text-dark" for="">Gender :</p></div>
                   <div class="col-7">
                     <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.gender}}</p>
                   </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mt-2">
                   <div class="col-5"><p class="text-dark" for="">Age :</p></div>
                   <div class="col-7">
                     <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.age}}</p>
                   </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mt-2">
                   <div class="col-5"><p class="text-dark" for="">Blood Group :</p></div>
                   <div class="col-7">
                     <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.blood}}</p>
                   </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mt-2">
                   <div class="col-5"><p class="text-dark" for="">Date of Birth :</p></div>
                   <div class="col-7">
                     <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.dob}}</p>
                   </div>
                 </div>
-                <div class="row mt-3">
-                  <div class="col-5"><p class="text-dark" for="">Permanent Address :</p></div>
+                <div class="row mt-1">
+                  <div class="col-5"><p class="text-dark" for="">Permanent Address:</p></div>
                   <div class="col-7">
                     <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.permanent_address}}</p>
                   </div>
                 </div>
-                <div class="row mt-3">
-                  <div class="col-5"><p class="text-dark" for="">Temporary Address :</p></div>
+                <div class="row mt-1">
+                  <div class="col-5"><p class="text-dark" for="">Temporary Address:</p></div>
                   <div class="col-7">
                     <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.address}}</p>
                   </div>
                 </div>
                 {% if p.parent %}
-                  <div class="row mt-3">
+                  <div class="row mt-1">
                     <div class="col-5"><p class="text-dark" for="">Parent Name :</p></div>
                     <div class="col-7">
-                      <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.parent}}</p>
+                      <p class="bold text-dark" style="max-width: 12rem;word-wrap: break-word;">{{p.parent}}</p>
                     </div>
                   </div>
                 {% endif %}
                 {% if p.spouse_name %}
-                  <div class="row mt-3">
+                  <div class="row">
                     <div class="col-5"><p class="text-dark" for="">Spouse Name :</p></div>
                     <div class="col-7">
-                      <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.spouse_name}}</p>
+                      <p class="bold text-dark" style="max-width: 12rem;word-wrap: break-word;">{{p.spouse_name}}</p>
                     </div>
                   </div>
                 {% endif %}
               </div>
-              <div class="p-info col-6">
-                <div class="card" style="background-color: rgb(110, 61, 46); padding-left: 1rem; padding-top: 1rem;">
+              <div class="p-info col-6  text-white">
+                <div class="card" style="background-color: rgb(207, 100, 68); padding-left: 1rem; padding-top: 1rem;">
                   <div class="h3 mt-4 text-white" style="margin-right: 2vh;">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salary Info
                     <hr>
@@ -505,6 +515,297 @@
                   <span aria-hidden="true" style="font-size: x-large;">&times;</span>
                 </button>
               </div>
+              <!---------------------------------------------print div content----------->
+              <div id="content" style="display:none;">
+              <div id="printdiv1" style="overflow-y: scroll; height: 70vh;">
+                <div class="row" id="div-to-pdf" style="background-color: #ffddb0; margin-left:1px; margin-right: 1rem;">
+                  <br>
+                  <div class="row">
+                    <div class="col-3 mt-3" >
+                      <label style="font-size: medium; color: black;"><b>Name : {{p.first_name}} {{p.last_name}}</b></label><br>
+                      <label style="font-size: medium; color: black;"><b>Position : {{p.designation}}</b></label>
+                    </div>
+                    <div class="col-6 mt-3">
+                      <div class="row text-center">
+                        <h2 style="color: #000000;">Employee Details</h2>
+                      </div>
+                    </div>
+                    <div class="col-3 mt-3" style="text-align: right;">
+                      <label style="font-size: medium; color: black;"><b>Emp No : {{p.emp_number}}</b></label><br>
+                      <label style="font-size: medium; color: black;"><b>Join Date : {{p.joindate | date:'d-m-Y'}}</b></label>
+                    </div>
+                  </div>
+                  <div class="row text-center">
+                    <h2 style="color: #000000;">
+                      <hr>
+                    </h2>
+                  </div>
+                  <div class="gen-info col-6 " style="padding-left: 3rem; ">
+                    <div class="row mt-1">
+                      <div class="col-2"></div>
+                      <div class="col-6" style="text-align: center; ">
+                        <a href=" " download>
+                          <img class="img-fluid" src="" alt="" width="119px" name="img">
+                          <br><br>
+                          <p style="color: black;">{{p.title}} &nbsp;{{p.first_name}} &nbsp;{{p.last_name}}
+                            {% if p.alias %}
+                              <br>
+                            
+                            {% endif %}
+                          </p>
+                        </a>
+                        <div class="col-3"></div>
+                      </div>
+                    </div><br>
+                    <div class="row mt-1">
+                      <div class="col-5"><p class="text-dark" for=""> Email : </p></div>
+                      <div class="col-7">
+                        <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.email}}</p>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-5"><p class="text-dark" for="">Phone Number:</p></div>
+                      <div class="col-7">
+                        <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.Phone}}</p>
+                      </div>
+                    </div>
+                    {% if p.emergency_phone %}
+                      <div class="row mt-3">
+                        <div class="col-5"><p class="text-dark" for="">Emergency Number :</p></div>
+                        <div class="col-7">
+                          <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.emergency_phone}}</p>
+                        </div>
+                      </div>
+                    {% endif %}
+                    <div class="row mt-3">
+                      <div class="col-5"><p class="text-dark" for="">Location :</p></div>
+                      <div class="col-7">
+                        <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.location}}</p>
+                      </div>
+                    </div>
+                    <div class="h3 mt-4 text-black">Personal info
+                      <hr>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-5"><p class="text-dark" for="">Gender :</p></div>
+                      <div class="col-7">
+                        <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.gender}}</p>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-5"><p class="text-dark" for="">Age :</p></div>
+                      <div class="col-7">
+                        <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.age}}</p>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-5"><p class="text-dark" for="">Blood Group :</p></div>
+                      <div class="col-7">
+                        <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.blood}}</p>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-5"><p class="text-dark" for="">Date of Birth :</p></div>
+                      <div class="col-7">
+                        <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.dob}}</p>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-5"><p class="text-dark" for="">Permanent Address :</p></div>
+                      <div class="col-7">
+                        <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.permanent_address}}</p>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-5"><p class="text-dark" for="">Temporary Address :</p></div>
+                      <div class="col-7">
+                        <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.address}}</p>
+                      </div>
+                    </div>
+                    {% if p.parent %}
+                      <div class="row mt-3">
+                        <div class="col-5"><p class="text-dark" for="">Parent Name :</p></div>
+                        <div class="col-7">
+                          <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.parent}}</p>
+                        </div>
+                      </div>
+                    {% endif %}
+                    {% if p.spouse_name %}
+                      <div class="row mt-3 mb-3">
+                        <div class="col-5"><p class="text-dark" for="">Spouse Name :</p></div>
+                        <div class="col-7">
+                          <p class="bold text-dark" style="max-width: 15rem;word-wrap: break-word;">{{p.spouse_name}}</p>
+                        </div>
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div class="p-info col-6">
+                    <div class="card" style="background-color: rgb(110, 61, 46); padding-left: 1rem; padding-top: 1rem;">
+                      <div class="h3 mt-4 text-white" style="margin-right: 2vh;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salary Info
+                        <hr>
+                      </div>
+                                                
+                      <div class="row mt-2">
+                        <div class="col-1"></div>
+                        <div class="col-5"><p for="">Employee Salary :</p></div>
+                        <div class="col-6">
+                          <p class="bold">{{p.salary}}</p>
+                        </div>
+                      </div>
+                                                
+                      <div class="row mt-2">
+                        <div class="col-1"></div>
+                        <div class="col-5"><p for="">Salary Date Range :</p></div>
+                        <div class="col-6">
+                          <p class="bold">{{p.salaryrange}}</p>
+                        </div>
+                      </div>
+                                            
+                      <div class="row mt-2">
+                        <div class="col-1"></div>
+                        <div class="col-5"><p for="">Salary Type :</p></div>
+                        <div class="col-6">
+                          {% if p.salary_type == 'Variable' %}
+                            <p class="bold">Time Based</p>
+                          {% else %}
+                            <p class="bold">{{p.salary_type}}</p>
+                          {% endif %}
+                        </div>
+                      </div>
+      
+                      {% if p.salary_type == 'Variable' %}
+                        <div class="row mt-2">
+                          <div class="col-1"></div>
+                          <div class="col-5"><p for="">Amount per Hour :</p></div>
+                          <div class="col-6">
+                            <p class="bold">{{p.amountperhr}}</p>
+                          </div>
+                        </div>
+                                              
+                        <div class="row mt-2">
+                          <div class="col-1"></div>
+                          <div class="col-5"><p for="">Total Work Hours :</p></div>
+                          <div class="col-6">
+                            <p class="bold">{{p.workhr}}</p>
+                          </div>
+                        </div>
+                      {% endif %}
+      
+                      <div class="row mt-2">
+                        <div class="col-1"></div>
+                        <div class="col-5"><p for="">TDS Applicable :</p></div>
+                        <div class="col-6">
+                          <p class="bold">{{p.isTDS}}</p>
+                        </div>
+                      </div>
+      
+                      {% if p.isTDS != 'No' %}
+                        <div class="row mt-2">
+                          <div class="col-1"></div>
+                          <div class="col-5"><p for="">TDS Amount :</p></div>
+                          <div class="col-6">
+                            <p class="bold">{{p.TDS}}</p>
+                          </div>
+                        </div>
+                      {% endif %}
+      
+                      <div class="h3 mt-4 text-white" style="margin-right: 2vh;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statutary Info
+                        <hr>
+                      </div>
+                                                
+                      <div class="row mt-2">
+                        <div class="col-1"></div>
+                        <div class="col-5"><p for="">Income Tax Number :</p></div>
+                        <div class="col-6">
+                          <p class="bold">{{p.ITN}}</p>
+                        </div>
+                      </div>
+                                            
+                      <div class="row mt-2">
+                        <div class="col-1"></div>
+                        <div class="col-5"><p for="">Aadhar Number :</p></div>
+                        <div class="col-6">
+                          <p class="bold">{{p.Aadhar}}</p>
+                        </div>
+                      </div>
+                                            
+                      <div class="row mt-2">
+                        <div class="col-1"></div>
+                        <div class="col-5"><p for="">Universal Account No :</p></div>
+                        <div class="col-6">
+                          <p class="bold">{{p.UAN}}</p>
+                        </div>
+                      </div>
+                                                
+                      <div class="row mt-2">
+                        <div class="col-1"></div>
+                        <div class="col-5"><p for="">PR Account No :</p></div>
+                        <div class="col-6">
+                          <p class="bold">{{p.PRAN}}</p>
+                        </div>
+                      </div>
+                                                                    
+                      <div class="row mt-2">
+                        <div class="col-1"></div>
+                        <div class="col-5"><p for="">PF Account No:</p></div>
+                        <div class="col-6">
+                          <p class="bold">{{p.PFN}}</p>
+                        </div>
+                      </div>
+      
+                      {% for bank in b %}
+                        <div class="h3 mt-4 text-white" style="margin-right: 2vh;">
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bank Info
+                          <hr>
+                        </div>
+                                                                                      
+                        <div class="row mt-2">
+                            <div class="col-1"></div>
+                            <div class="col-5"><p for="">Bank Name:</p></div>
+                            <div class="col-6">
+                              <p class="bold">{{bank.bank_name}}</p>
+                            </div>
+                        </div>   
+                                                                                   
+                        <div class="row mt-2">
+                          <div class="col-1"></div>
+                          <div class="col-5"><p for="">Account No:</p></div>
+                          <div class="col-6">
+                            <p class="bold">{{bank.acc_no}}</p>
+                          </div>
+                        </div>
+                                                                                      
+                        <div class="row mt-2">
+                          <div class="col-1"></div>
+                          <div class="col-5"><p for="">IFSC Code:</p></div>
+                          <div class="col-6">
+                            <p class="bold">{{bank.IFSC}}</p>
+                          </div>
+                        </div>
+                                                                                      
+                        <div class="row mt-2">
+                          <div class="col-1"></div>
+                          <div class="col-5"><p for="">Bank Branch:</p></div>
+                          <div class="col-6">
+                            <p class="bold">{{bank.branch}}</p>
+                          </div>
+                        </div>
+                                                                                      
+                        <div class="row mt-2">
+                          <div class="col-1"></div>
+                          <div class="col-5"><p for="">Transaction Type:</p></div>
+                          <div class="col-6">
+                            <p class="bold">{{bank.transaction_type}}</p>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div><br>
+                  </div>
+                </div>    
+              </div>   
+<!----------------------------------------------------------end--------------------------------->    
 
               <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -545,45 +846,44 @@
     </div>
   </div>
 </section>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 <script>
   function exportToPDF(){
-    var content = document.getElementById('div-to-pdf');
-    content.style.marginRight = '-1rem';
-    html2pdf().from(content).save('Employee_Details.pdf')
-    setTimeout(function() {
-      content.style.marginRight = '1rem';
-    }, 1);
+    console.log("myTable1");
+
+// Use the correct selector to get the element by ID
+var element = document.getElementById('div-to-pdf') 
+
+        var opt =
+        {
+            margin: 0.5,
+            filename: 'overviewpage' + '.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 4 },
+            jsPDF: { unit: 'cm', format: 'letter', orientation: 'portrait', }
+        };
+        html2pdf().set(opt).from(element).save();
+        
+
   }
 </script>
 
 <script>
   function printSelectedArea(){
-    var targetDiv = document.getElementById('printdiv');
-    var elements = targetDiv.querySelectorAll('*');
-    elements.forEach(function (element) {
-      var currentFontSize = window.getComputedStyle(element).fontSize;
-      var currentFontSizeNumeric = parseFloat(currentFontSize);
-      var newFontSize = currentFontSizeNumeric - 2.5 + 'px';
-      element.style.fontSize = newFontSize;
-    });
+    var printContents = $("#printdiv").clone(); // Clone the content-div to avoid modifying the original content
+    printContents.find('.hideon-print').remove(); // Remove columns by class name
 
-    var printContents = document.getElementById("printdiv").innerHTML;
-    var $printerDiv = $('<div class="printContainer bg-white"></div>');
-    $printerDiv.html(printContents);
+    var $printerDiv = $('<div class="printContainer" id=printContainer></div>');
+    $printerDiv.html(printContents.html());
     $('body').append($printerDiv).addClass("printingContent");
+    var h1Element = document.createElement("h1");
+    var head = document.getElementById("printContainer");
+    head.insertBefore(h1Element, head.firstChild);
     window.print();
     $printerDiv.remove();
     $('body').removeClass("printingContent");
 
-    var targetDiv = document.getElementById('printdiv');
-    var elements = targetDiv.querySelectorAll('*');
-    elements.forEach(function (element) {
-      var currentFontSize = window.getComputedStyle(element).fontSize;
-      var currentFontSizeNumeric = parseFloat(currentFontSize);
-      var newFontSize = currentFontSizeNumeric + 2.5 + 'px';
-      element.style.fontSize = newFontSize;
-    });
+    
   }
 </script>
 

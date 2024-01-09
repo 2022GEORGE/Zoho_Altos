@@ -29,16 +29,26 @@
   .modal-backdrop {
     z-index: -1;
   }
+  #content1{
+    top: 7rem; 
+    margin-left:17rem;
+  }
+@media (max-width:740px){
+  #content1{
+    top: 7rem; 
+    margin-left:20px;
+  }
+}
 </style>
 
-<div class="container-fluid">
-  <div class="fixed-top" style="top: 7rem; margin-left: 18rem;">
-    <div style="height: 600px;overflow-y: scroll;">
-      <div class="row container-fluid">
+<div class="container">
+  <div class="fixed-top"  id="content1">
+    <div style="height: 600px; overflow-y: scroll;">
+      <div class="row container">
         <div class="col-md-3"><a class="text-white" style="font-size: 2rem;">All Employees</a></div>
         <div class="col-md-5"></div>
         <div class="col-md-3">
-          <div class="d-flex" style="margin-left: 9vh; margin-top: 2vh;" >
+          <div class="d-flex" style="margin-left: 9vh; margin-top: 1vh;" >
             <a onclick="ExportToExcel()" class="btn text-center pt-2 btn-outline-warning d-flex" style="width: fit-content;">
               <i class='fas fa-file-export' style='font-size:20px'></i> <span style="margin-top: 3px;">Export</span>
             </a>
@@ -49,7 +59,7 @@
         </div>
       </div>    
       <br>
-      <div class="row container-fluid mb-3">
+      <div class="row container mb-3">
         <div class="col-md-3"><input type="text" id="search" class="form-control bg-light text-dark" placeholder="Search.." autocomplete="off"></div>
         <div class="col-md-2">
           <div class="dropdown">
@@ -81,7 +91,7 @@
         </div>
       </div>
       <br>
-      <div class="row container-fluid">
+      <div class="row ">
         <div class="col-sm-12 col-md-11 col-lg-11">
           <table class="table  text-white" id="employeetable">
             <thead>

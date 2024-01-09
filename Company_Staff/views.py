@@ -523,7 +523,7 @@ def employee_overview(request,pk):
     log_details= LoginDetails.objects.get(id=log_id)
     dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
     allmodules= ZohoModules.objects.get(company=dash_details,status='New')
-    pay=payroll_employee.objects.filter(id=pk)
+    pay=payroll_employee.objects.filter(login_details=log_details)
     p=payroll_employee.objects.get(id=pk)
     content = {
             'details': dash_details,
@@ -619,8 +619,11 @@ def payroll_employee_edit(request,pk):
     log_details= LoginDetails.objects.get(id=log_id)
     dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
     allmodules= ZohoModules.objects.get(company=dash_details,status='New')
+    p=payroll_employee.objects.get(id=pk)
+    print(p)
     content = {
             'details': dash_details,
             'allmodules': allmodules,
+            'p':p
     }
-    return render(request,'zohomodules/payroll-employee/payroll_create_employee.html',content)
+    return render(request,'zohomodules/payroll-employee/edit_employee.html',content)
