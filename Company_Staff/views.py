@@ -506,31 +506,48 @@ def employee_list(request):
         if 'login_id' not in request.session:
             return redirect('/')
     log_details= LoginDetails.objects.get(id=log_id)
-    dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
-    allmodules= ZohoModules.objects.get(company=dash_details,status='New')
-    pay=payroll_employee.objects.filter(login_details=log_details)
-    content = {
-            'details': dash_details,
-            'allmodules': allmodules,
-            'pay':pay
-    }
-    return render(request,'zohomodules/payroll-employee/payroll_list.html',content)
+    if log_details.user_type == 'Staff':
+        dash_details = StaffDetails.objects.get(login_details=log_details)
+        pay=payroll_employee.objects.filter(company=dash_details.company)
+        allmodules= ZohoModules.objects.get(company=dash_details.company,status='New')
+        content = {
+                'details': dash_details,
+                'pay':pay,
+                'allmodules': allmodules,
+        }
+        return render(request,'zohomodules/payroll-employee/payroll_list.html',content)
+    if log_details.user_type == 'Company':
+        dash_details = CompanyDetails.objects.get(login_details=log_details)
+        pay=payroll_employee.objects.filter(company=dash_details)
+        allmodules= ZohoModules.objects.get(company=dash_details,status='New')
+        content = {
+                'details': dash_details,
+                'pay':pay,
+                'allmodules': allmodules,
+        }
+        return render(request,'zohomodules/payroll-employee/payroll_list.html',content)
 def employee_overview(request,pk):
     if 'login_id' in request.session:
         log_id = request.session['login_id']
         if 'login_id' not in request.session:
             return redirect('/')
     log_details= LoginDetails.objects.get(id=log_id)
-    dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
-    allmodules= ZohoModules.objects.get(company=dash_details,status='New')
-    pay=payroll_employee.objects.filter(login_details=log_details)
-    p=payroll_employee.objects.get(id=pk)
+    if log_details.user_type =='Company':
+        dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
+        pay=payroll_employee.objects.filter(company=dash_details)
+        allmodules= ZohoModules.objects.get(company=dash_details,status='New')
+        p=payroll_employee.objects.get(id=pk)
+    if log_details.user_type =='Staff':
+        dash_details = StaffDetails.objects.get(login_details=log_details)
+        pay=payroll_employee.objects.filter(company=dash_details.company)
+        allmodules= ZohoModules.objects.get(company=dash_details.company,status='New')
+        p=payroll_employee.objects.get(id=pk)
     content = {
-            'details': dash_details,
-            'allmodules': allmodules,
-            'pay':pay,
-            'p':p
-    }
+                'details': dash_details,
+                'pay':pay,
+                'p':p,
+                'allmodules': allmodules,
+        }
     return render(request,'zohomodules/payroll-employee/overview_page.html',content)
 def create_employee(request):
     if request.method=='POST':
