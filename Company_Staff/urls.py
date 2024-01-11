@@ -42,5 +42,6 @@ urlpatterns = [
     path('Company/payroll_employee_overview/<int:pk>',views.employee_overview,name='employee_overview'),
     path('Company/create_employee',views.create_employee,name='create_employee'),
     path('Company/payroll_employee_edit/<int:pk>',views.payroll_employee_edit,name='payroll_employee_edit'),
+    path('Company/do_payroll_edit/<int:pk>',views.do_payroll_edit,name='do_payroll_edit'),
     
 ]

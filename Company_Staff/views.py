@@ -6,6 +6,7 @@ from django.conf import settings
 from datetime import date
 from datetime import datetime, timedelta
 from Company_Staff.models import *
+import os
 # Create your views here.
 
 
@@ -569,8 +570,6 @@ def create_employee(request):
         else:
             salary=request.POST['vsalary']
         image=request.FILES.get('file')
-        if image == None:
-            image="image/img.png"
         amountperhr=request.POST['amnthr']
         workhr=request.POST['hours']
         empnum=request.POST['empnum']
@@ -622,21 +621,37 @@ def create_employee(request):
         bname=request.POST['b_name']       
         branch=request.POST['branch']
         ttype=request.POST['ttype']
-        payroll= payroll_employee(title=title,first_name=fname,last_name=lname,alias=alias,image=image,joindate=joindate,salary_type=saltype,salary=salary,age=age,
+        if log_details.user_type == 'Company':
+            dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
+            payroll= payroll_employee(title=title,first_name=fname,last_name=lname,alias=alias,image=image,joindate=joindate,salary_type=saltype,salary=salary,age=age,
                          emp_number=empnum,designation=designation,location=location, gender=gender,dob=dob,blood=blood,parent=fmname,spouse_name=sname,workhr=workhr,
                          amountperhr = amountperhr, address=address,permanent_address=paddress ,Phone=phone,emergency_phone=ephone, email=email,Income_tax_no=itn,Aadhar=an,
                          UAN=uan,PFN=pfn,PRAN=pran,uploaded_file=attach,isTDS=istdsval,TDS_percentage=tds,salaryrange = salarydate,acc_no=accno,IFSC=ifsc,bank_name=bname,branch=branch,transaction_type=ttype,company=dash_details,login_details=log_details)
-        payroll.save()
-        return redirect('payroll_employee_create')
+            payroll.save()
+            return redirect('payroll_employee_create')
+        if log_details.user_type == 'Staff':
+            dash_details = StaffDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
+            payroll= payroll_employee(title=title,first_name=fname,last_name=lname,alias=alias,image=image,joindate=joindate,salary_type=saltype,salary=salary,age=age,
+                         emp_number=empnum,designation=designation,location=location, gender=gender,dob=dob,blood=blood,parent=fmname,spouse_name=sname,workhr=workhr,
+                         amountperhr = amountperhr, address=address,permanent_address=paddress ,Phone=phone,emergency_phone=ephone, email=email,Income_tax_no=itn,Aadhar=an,
+                         UAN=uan,PFN=pfn,PRAN=pran,uploaded_file=attach,isTDS=istdsval,TDS_percentage=tds,salaryrange = salarydate,acc_no=accno,IFSC=ifsc,bank_name=bname,branch=branch,transaction_type=ttype,company=dash_details.company,login_details=log_details)
+            payroll.save()
+            return redirect('payroll_employee_create')
+    return redirect('payroll_employee_create')
 def payroll_employee_edit(request,pk):
     if 'login_id' in request.session:
         log_id = request.session['login_id']
         if 'login_id' not in request.session:
             return redirect('/')
     log_details= LoginDetails.objects.get(id=log_id)
-    dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
-    allmodules= ZohoModules.objects.get(company=dash_details,status='New')
-    p=payroll_employee.objects.get(id=pk)
+    if log_details.user_type == 'Company':
+        dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
+        allmodules= ZohoModules.objects.get(company=dash_details,status='New')
+        p=payroll_employee.objects.get(id=pk)
+    if log_details.user_type == 'Staff':
+        dash_details = StaffDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
+        allmodules= ZohoModules.objects.get(company=dash_details.company,status='New')
+        p=payroll_employee.objects.get(id=pk)
     print(p)
     content = {
             'details': dash_details,
@@ -644,3 +659,165 @@ def payroll_employee_edit(request,pk):
             'p':p
     }
     return render(request,'zohomodules/payroll-employee/edit_employee.html',content)
+def do_payroll_edit(request,pk):
+    if request.method=='POST':
+        if 'login_id' in request.session:
+            log_id = request.session['login_id']
+        if 'login_id' not in request.session:
+            return redirect('/')
+        log_details= LoginDetails.objects.get(id=log_id)    
+        title=request.POST['title']
+        fname=request.POST['fname']
+        lname=request.POST['lname']
+        alias=request.POST['alias']
+        joindate=request.POST['joindate']
+        salarydate=request.POST['salary']
+        saltype=request.POST['saltype']
+        if (saltype == 'Fixed'):
+            salary=request.POST['fsalary']
+        else:
+            salary=request.POST['vsalary']
+        image=request.FILES.get('file')
+        amountperhr=request.POST['amnthr']
+        workhr=request.POST['hours']
+        empnum=request.POST['empnum']
+        designation = request.POST['designation']
+        location=request.POST['location']
+        gender=request.POST['gender']
+        dob=request.POST['dob']
+        blood=request.POST['blood']
+        fmname=request.POST['fm_name']
+        sname=request.POST['s_name']        
+        add1=request.POST['address']
+        add2=request.POST['address2']
+        address=add1+" "+add2
+        padd1=request.POST['paddress'] 
+        padd2=request.POST['paddress2'] 
+        paddress= padd1+padd2
+        phone=request.POST['phone']
+        ephone=request.POST['ephone']
+        email=request.POST['email']
+        isdts=request.POST['tds']
+        attach=request.FILES.get('attach')
+        if isdts == '1':
+            istdsval=request.POST['pora']
+            if istdsval == 'Percentage':
+                tds=request.POST['pcnt']
+            elif istdsval == 'Amount':
+                tds=request.POST['amnt']
+        else:
+            istdsval='No'
+            tds = 0
+        itn=request.POST['itn']
+        an=request.POST['an']        
+        uan=request.POST['uan'] 
+        pfn=request.POST['pfn']
+        pran=request.POST['pran']
+        age=request.POST['age']
+        bank=request.POST['bank']
+        accno=request.POST['acc_no']       
+        ifsc=request.POST['ifsc']       
+        bname=request.POST['b_name']       
+        branch=request.POST['branch']
+        ttype=request.POST['ttype']
+        if log_details.user_type == 'Company':
+            dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
+            payroll= payroll_employee.objects.get(id=pk)
+            payroll.title=title
+            payroll.first_name=fname
+            payroll.last_name=lname
+            payroll.alias=alias
+            if len(request.FILES)!= 0:
+                if len(payroll.image)>0:
+                    os.remove(payroll.image.path)
+                    payroll.image=image
+            payroll.joindate=joindate
+            payroll.salary_type=saltype
+            payroll.salary=salary,age=age
+            payroll.emp_number=empnum
+            payroll.designation=designation
+            payroll.location=location
+            payroll.gender=gender
+            payroll.dob=dob
+            payroll.blood=blood
+            payroll.parent=fmname
+            payroll.spouse_name=sname
+            payroll.workhr=workhr,
+            payroll.amountperhr = amountperhr
+            payroll.address=address
+            payroll.permanent_address=paddress
+            payroll.Phone=phone
+            payroll.emergency_phone=ephone
+            payroll.email=email
+            payroll.Income_tax_no=itn
+            payroll.Aadhar=an
+            payroll.UAN=uan
+            payroll.PFN=pfn
+            payroll.PRAN=pran
+            if len(request.FILES) !=0:
+                if len(payroll.uploaded_file)>0:
+                    os.remove(payroll.uploaded_file.path)
+                    payroll.uploaded_file=attach
+            payroll.isTDS=istdsval
+            payroll.TDS_percentage=tds
+            payroll.salaryrange = salarydate
+            payroll.acc_no=accno
+            payroll.IFSC=ifsc
+            payroll.bank_name=bname
+            payroll.branch=branch
+            payroll.transaction_type=ttype
+            payroll.company=dash_details
+            payroll.login_details=log_details
+            payroll.save()
+            return redirect('employee_overview')
+        if log_details.user_type == 'Staff':
+            dash_details = StaffDetails.objects.get(login_details=log_details)
+            payroll= payroll_employee.objects.get(id=pk)
+            payroll.title=title
+            payroll.first_name=fname
+            payroll.last_name=lname
+            payroll.alias=alias
+            if image != 0:
+                if len(payroll.image)>0:
+                    os.remove(payroll.image.path)
+                    payroll.image=image
+            payroll.joindate=joindate
+            payroll.salary_type=saltype
+            payroll.salary=salary,age=age
+            payroll.emp_number=empnum
+            payroll.designation=designation
+            payroll.location=location
+            payroll.gender=gender
+            payroll.dob=dob
+            payroll.blood=blood
+            payroll.parent=fmname
+            payroll.spouse_name=sname
+            payroll.workhr=workhr,
+            payroll.amountperhr = amountperhr
+            payroll.address=address
+            payroll.permanent_address=paddress
+            payroll.Phone=phone
+            payroll.emergency_phone=ephone
+            payroll.email=email
+            payroll.Income_tax_no=itn
+            payroll.Aadhar=an
+            payroll.UAN=uan
+            payroll.PFN=pfn
+            payroll.PRAN=pran
+            if attach !=0:
+                if len(payroll.uploaded_file)>0:
+                    os.remove(payroll.uploaded_file.path)
+                    payroll.uploaded_file=attach
+            payroll.isTDS=istdsval
+            payroll.TDS_percentage=tds
+            payroll.salaryrange = salarydate
+            payroll.acc_no=accno
+            payroll.IFSC=ifsc
+            payroll.bank_name=bname
+            payroll.branch=branch
+            payroll.transaction_type=ttype
+            payroll.company=dash_details
+            payroll.login_details=log_details
+            payroll.save()
+            return redirect('employee_overview')
+    return redirect('employee_overview')
