@@ -494,11 +494,18 @@ def payroll_employee_create(request):
         if 'login_id' not in request.session:
             return redirect('/')
     log_details= LoginDetails.objects.get(id=log_id)
-    dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
-    allmodules= ZohoModules.objects.get(company=dash_details,status='New')
+    blood=Bloodgroup.objects.all()
+    if log_details.user_type == "Company":
+        dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
+        allmodules= ZohoModules.objects.get(company=dash_details,status='New')
+    if log_details.user_type == "Staff":
+        dash_details = StaffDetails.objects.get(login_details=log_details)
+        allmodules= ZohoModules.objects.get(company=dash_details.company,status='New')
     content = {
             'details': dash_details,
             'allmodules': allmodules,
+            'log_id':log_details,
+            'blood':blood
     }
     return render(request,'zohomodules/payroll-employee/payroll_create_employee.html',content)
 def employee_list(request):
@@ -515,6 +522,7 @@ def employee_list(request):
                 'details': dash_details,
                 'pay':pay,
                 'allmodules': allmodules,
+                'log_id':log_details
         }
         return render(request,'zohomodules/payroll-employee/payroll_list.html',content)
     if log_details.user_type == 'Company':
@@ -525,6 +533,7 @@ def employee_list(request):
                 'details': dash_details,
                 'pay':pay,
                 'allmodules': allmodules,
+                'log_id':log_details
         }
         return render(request,'zohomodules/payroll-employee/payroll_list.html',content)
 def employee_overview(request,pk):
@@ -538,16 +547,23 @@ def employee_overview(request,pk):
         pay=payroll_employee.objects.filter(company=dash_details)
         allmodules= ZohoModules.objects.get(company=dash_details,status='New')
         p=payroll_employee.objects.get(id=pk)
+        comment_data=comment.objects.filter(login_details=log_details,employee=pk)
+        history=employee_history.objects.filter(login_details=log_details,employee=pk)
     if log_details.user_type =='Staff':
         dash_details = StaffDetails.objects.get(login_details=log_details)
         pay=payroll_employee.objects.filter(company=dash_details.company)
         allmodules= ZohoModules.objects.get(company=dash_details.company,status='New')
         p=payroll_employee.objects.get(id=pk)
+        comment_data=comment.objects.filter(login_details=log_details,employee=pk)
+        history=employee_history.objects.all()
     content = {
                 'details': dash_details,
                 'pay':pay,
                 'p':p,
                 'allmodules': allmodules,
+                'comment':comment_data,
+                'history':history,
+                'log_id':log_details,
         }
     return render(request,'zohomodules/payroll-employee/overview_page.html',content)
 def create_employee(request):
@@ -556,8 +572,7 @@ def create_employee(request):
             log_id = request.session['login_id']
         if 'login_id' not in request.session:
             return redirect('/')
-        log_details= LoginDetails.objects.get(id=log_id)
-        dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)    
+        log_details= LoginDetails.objects.get(id=log_id)    
         title=request.POST['title']
         fname=request.POST['fname']
         lname=request.POST['lname']
@@ -628,14 +643,18 @@ def create_employee(request):
                          amountperhr = amountperhr, address=address,permanent_address=paddress ,Phone=phone,emergency_phone=ephone, email=email,Income_tax_no=itn,Aadhar=an,
                          UAN=uan,PFN=pfn,PRAN=pran,uploaded_file=attach,isTDS=istdsval,TDS_percentage=tds,salaryrange = salarydate,acc_no=accno,IFSC=ifsc,bank_name=bname,branch=branch,transaction_type=ttype,company=dash_details,login_details=log_details)
             payroll.save()
+            history=employee_history(company=dash_details,login_details=log_details, employee=payroll,Action='CREATED')
+            history.save()
             return redirect('payroll_employee_create')
         if log_details.user_type == 'Staff':
-            dash_details = StaffDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
+            dash_details = StaffDetails.objects.get(login_details=log_details)
             payroll= payroll_employee(title=title,first_name=fname,last_name=lname,alias=alias,image=image,joindate=joindate,salary_type=saltype,salary=salary,age=age,
                          emp_number=empnum,designation=designation,location=location, gender=gender,dob=dob,blood=blood,parent=fmname,spouse_name=sname,workhr=workhr,
                          amountperhr = amountperhr, address=address,permanent_address=paddress ,Phone=phone,emergency_phone=ephone, email=email,Income_tax_no=itn,Aadhar=an,
                          UAN=uan,PFN=pfn,PRAN=pran,uploaded_file=attach,isTDS=istdsval,TDS_percentage=tds,salaryrange = salarydate,acc_no=accno,IFSC=ifsc,bank_name=bname,branch=branch,transaction_type=ttype,company=dash_details.company,login_details=log_details)
             payroll.save()
+            history=employee_history(company=dash_details.company,login_details=log_details, employee=payroll,Action='CREATED')
+            history.save()
             return redirect('payroll_employee_create')
     return redirect('payroll_employee_create')
 def payroll_employee_edit(request,pk):
@@ -643,20 +662,24 @@ def payroll_employee_edit(request,pk):
         log_id = request.session['login_id']
         if 'login_id' not in request.session:
             return redirect('/')
+    blood=Bloodgroup.objects.all()
     log_details= LoginDetails.objects.get(id=log_id)
     if log_details.user_type == 'Company':
         dash_details = CompanyDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
         allmodules= ZohoModules.objects.get(company=dash_details,status='New')
         p=payroll_employee.objects.get(id=pk)
     if log_details.user_type == 'Staff':
-        dash_details = StaffDetails.objects.get(login_details=log_details,superadmin_approval=1,Distributor_approval=1)
+        dash_details = StaffDetails.objects.get(login_details=log_details)
         allmodules= ZohoModules.objects.get(company=dash_details.company,status='New')
         p=payroll_employee.objects.get(id=pk)
+        
     print(p)
     content = {
             'details': dash_details,
             'allmodules': allmodules,
-            'p':p
+            'p':p,
+            'log_id':log_details,
+             'blood':blood
     }
     return render(request,'zohomodules/payroll-employee/edit_employee.html',content)
 def do_payroll_edit(request,pk):
@@ -673,7 +696,7 @@ def do_payroll_edit(request,pk):
         joindate=request.POST['joindate']
         salarydate=request.POST['salary']
         saltype=request.POST['saltype']
-        if (saltype == 'Fixed'):
+        if (saltype == 'Fixed' or saltype =='Temporary'):
             salary=request.POST['fsalary']
         else:
             salary=request.POST['vsalary']
@@ -733,7 +756,8 @@ def do_payroll_edit(request,pk):
                     payroll.image=image
             payroll.joindate=joindate
             payroll.salary_type=saltype
-            payroll.salary=salary,age=age
+            payroll.salary=salary
+            age=age
             payroll.emp_number=empnum
             payroll.designation=designation
             payroll.location=location
@@ -769,7 +793,9 @@ def do_payroll_edit(request,pk):
             payroll.company=dash_details
             payroll.login_details=log_details
             payroll.save()
-            return redirect('employee_overview')
+            history=employee_history(company=dash_details,login_details=log_details, employee=payroll,Action='EDITED')
+            history.save()
+            return redirect('employee_overview',pk)
         if log_details.user_type == 'Staff':
             dash_details = StaffDetails.objects.get(login_details=log_details)
             payroll= payroll_employee.objects.get(id=pk)
@@ -783,7 +809,8 @@ def do_payroll_edit(request,pk):
                     payroll.image=image
             payroll.joindate=joindate
             payroll.salary_type=saltype
-            payroll.salary=salary,age=age
+            payroll.salary=salary
+            age=age
             payroll.emp_number=empnum
             payroll.designation=designation
             payroll.location=location
@@ -819,5 +846,42 @@ def do_payroll_edit(request,pk):
             payroll.company=dash_details
             payroll.login_details=log_details
             payroll.save()
-            return redirect('employee_overview')
-    return redirect('employee_overview')
+            history=employee_history(company=dash_details.company,login_details=log_details, employee=payroll,Action='EDITED')
+            history.save()
+            return redirect('employee_overview',pk)
+    return redirect('employee_overview',pk)
+def add_comment(request,pk):
+    if request.method =='POST':
+        comment_data=request.POST['comments']
+        if 'login_id' in request.session:
+            log_id = request.session['login_id']
+        if 'login_id' not in request.session:
+            return redirect('/')
+        log_details= LoginDetails.objects.get(id=log_id)
+        payroll= payroll_employee.objects.get(id=pk) 
+        data=comment(comment=comment_data,login_details=log_details,employee=payroll)
+        data.save()
+        return redirect('employee_overview',pk)
+    return redirect('employee_overview',pk)
+def delete_commet(request,pk,pi):
+    data=comment.objects.get(id=pk)
+    data.delete()
+    return redirect('employee_overview',pi)
+def delete_employee(request,pk):
+    data=payroll_employee.objects.get(id=pk)
+    data.delete()
+    return redirect('employee_list')
+def employee_status(request,pk):
+    data=payroll_employee.objects.get(id=pk)
+    if data.status == 'Active':
+        data.status ='Inactive'
+    elif data.status == 'Inactive':
+        data.status ='Active'
+    data.save()
+    return redirect('employee_overview',pk)
+def add_blood(request,pk):
+    if request.method =='POST':
+        blood=request.POST['blood']
+        data=Bloodgroup(Blood_group=blood)
+        data.save()
+        return redirect('employee_overview',pk)

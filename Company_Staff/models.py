@@ -43,13 +43,20 @@ class payroll_employee(models.Model):
     company=models.ForeignKey(CompanyDetails,on_delete=models.CASCADE,null=True)
     login_details=models.ForeignKey(LoginDetails,on_delete=models.CASCADE,null=True)
     acc_no = models.BigIntegerField()  
-    IFSC = models.CharField(max_length=100)
-    bank_name = models.CharField(max_length=100)
-    branch = models.CharField(max_length=100)
-    transaction_type = models.CharField(max_length=100)
+    IFSC = models.CharField(max_length=100,null=True)
+    bank_name = models.CharField(max_length=100,null=True)
+    branch = models.CharField(max_length=100,null=True)
+    transaction_type = models.CharField(max_length=100,null=True)
 class employee_history(models.Model):
     company=models.ForeignKey(CompanyDetails,on_delete=models.CASCADE,null=True)
     login_details=models.ForeignKey(LoginDetails,on_delete=models.CASCADE,null=True)
     employee=models.ForeignKey(payroll_employee,on_delete=models.CASCADE,null=True)
     Date=models.DateField(null=True,auto_now=True)
     Action=models.CharField(null=True,max_length=255)
+class Bloodgroup(models.Model):
+    Blood_group=models.CharField(max_length=255,null=True)
+class comment(models.Model):
+    comment=models.CharField(null=True,max_length=255)
+    login_details=models.ForeignKey(LoginDetails,on_delete=models.CASCADE,null=True)
+    employee=models.ForeignKey(payroll_employee,on_delete=models.CASCADE,null=True)
+    

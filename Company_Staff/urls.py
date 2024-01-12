@@ -43,5 +43,10 @@ urlpatterns = [
     path('Company/create_employee',views.create_employee,name='create_employee'),
     path('Company/payroll_employee_edit/<int:pk>',views.payroll_employee_edit,name='payroll_employee_edit'),
     path('Company/do_payroll_edit/<int:pk>',views.do_payroll_edit,name='do_payroll_edit'),
+    path('Company/add_comment/<int:pk>',views.add_comment,name='add_comment'),
+    path('Company/delete_comment/<int:pk>/<int:pi>',views.delete_commet,name='delete_comment'),
+    path('Company/delete_employee/<int:pk>',views.delete_employee,name='delete_employee'),
+    path('Company/employee_status/<int:pk>',views.employee_status,name='employee_status'),
+    path('Company/add_blood/<int:pk>',views.add_blood,name='add_blood')
     
 ]

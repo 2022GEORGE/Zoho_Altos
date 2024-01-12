@@ -8,9 +8,10 @@
   <div class="container-fluid">
       <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'staff_dashboard' %}" class="text-warning-emphasis">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'staff_dashboard' %}" class="text-warning-emphasis">Payroll</a></li>
-            <li class="breadcrumb-item" aria-current="page">Payroll List</li>
+            {% if log_id.user_type == 'Staff' %} <li class="breadcrumb-item"><a href="{% url 'staff_dashboard' %}" class="text-warning-emphasis">Dashboard</a></li>{% endif %}
+            {% if log_id.user_type == 'Company' %} <li class="breadcrumb-item"><a href="{% url 'company_dashboard' %}" class="text-warning-emphasis">Dashboard</a></li>{% endif %}
+             <li class="breadcrumb-item"><a href="{% url 'employee_list' %}" class="text-warning-emphasis">Payroll_list</a></li>
+             <li class="breadcrumb-item" aria-current="page">Over view</li>
           </ol>
       </nav>
       <div class="row mt-5">
@@ -53,28 +54,30 @@
           </div>
         </div>
         <br>
-        <div class="row ">
+        <div class="row mt-2">
           <div class="table-responsive">
-            <table class="table  text-white" id="employeetable">
+            <table class="table  text-white" id="employeetable" style="background-color:rgb(30, 30, 30);;">
               <thead>
                 <tr>
                   <th style="text-align: center;">#</th>
                   <th style="text-align: center;">DATE</th>
                   <th style="text-align: center;">EMPLOYEE NAME</th>
                   <th style="text-align: center;">EMPLOYEE MAIL</th>
+                  <th style="text-align: center;">EMPLOYEE ID</th>
                   <th style="text-align: center;">DESIGNATION</th>
                   <th style="text-align: center;">SALARY TYPE</th>
                   <th style="text-align: center;">ACTIVE</th>
                   <th style="text-align: center;">SALARY</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody >
                 {% for i in pay %}
                   <tr id="over" class='clickable-row' data-href="{% url 'employee_overview' i.id %}">
                     <td style="text-align: center;">{{forloop.counter}}</td>
                     <td style="text-align: center;">{{i.joindate | date:'d-m-Y'}}</td>
                     <td style="text-align: center;">{{i.first_name}} {{i.last_name}}</td>
                     <td style="text-align: center;">{{i.email}}</td>
+                    <td style="text-align: center;">{{i.emp_number}}</td>
                     <td style="text-align: center;">{{i.designation}}</td>
                     <td style="text-align: center;">{{i.salary_type }}</td>
                     <td style="text-align: center;">{{i.status}}</td>
@@ -208,8 +211,8 @@
       rows = table.rows;
       for (i = 1; i < rows.length - 1; i++) {
         shouldSwitch = false;
-        x = rows[i].getElementsByTagName("td")[7];
-        y = rows[i + 1].getElementsByTagName("td")[7];
+        x = rows[i].getElementsByTagName("td")[8];
+        y = rows[i + 1].getElementsByTagName("td")[8];
         if (parseInt(x.innerHTML) > parseInt(y.innerHTML)) {
           shouldSwitch = true;
           break;
