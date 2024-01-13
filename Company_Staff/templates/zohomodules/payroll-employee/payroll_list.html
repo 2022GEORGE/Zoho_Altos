@@ -174,9 +174,41 @@
 </div>
       </div>
       </div>
-      </div>
-      </div>
-      </div>
+
+      <div class="modal fade" id="importmodal" style="margin-top: 7vh;">
+        <div class="modal-dialog ">
+          <div class="modal-content" style="background: rgb(32, 35, 37);border-radius: 20px;">
+            <div class="modal-header">
+              <h5 class="modal-title" id="excelModalLabel">Upload File
+              <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="font-size: x-large;">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" style="background: rgb(32, 35, 37);">
+              <div class="card">
+                <form action="{% url 'import_payroll_employee' %}" method="post" class="needs-validation" novalidate autocomplete="off" id="excelForm">
+                  {% csrf_token %}
+                  <div class="form-group mt-3" style="margin-left: 2vh;">
+                    <label for="file" style="font-size: medium;">Choose Excel File for Employees - </label> <br><br>
+                    <input type="file" class="form-control-file" id="empfile" name="empfile" accept=".xls, .xlsx"><br>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn text-center pt-2 btn-outline-warning" onclick="" >Upload</button>
+                    <button type="button" class="btn text-center pt-2 btn-outline-warning" data-dismiss="modal">Close</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>  
+      </div>  
+
+      
+    
+    
+</div>
+  </div>
+  </div>
 
 <script>
   function sortTableName() {
@@ -272,47 +304,50 @@
     const ws1 = XLSX.utils.table_to_sheet(table1);
     const wb1 = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb1, ws1, 'Sheet1');
-    XLSX.writeFile(wb1, 'EmployeeModel.xlsx');
+    XLSX.writeFile(wb1, 'pay roll.xlsx');
   }
 </script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    {% for msg in messages %}
+    swal({
+    title: "{{msg}}",
+    text: "{{msg.tags}}",
+    icon: "{{msg.tags}}",
+  });
+    {% endfor %}
+   </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script>
   function uploadFile() {
     const form = document.getElementById('excelForm');
     const formData = new FormData(form);
-      
-    fetch('import_employee_details', {
+    fetch('import_payroll_excel', {
       method: 'POST',
       body: formData
     })
-    .then(response => {
-      if (!response.ok) {
-         throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(jsonResponse => {
-      if (jsonResponse.message) {
-        swal({
-            title: 'Error',
-            text: jsonResponse.message,
-            icon: 'error',
-            buttons: false,
+    .then(data => {
+            swal({
+                title: "Imported !",
+                text: "Purchase Bill Import Successfull!",
+                icon: "success",
+                buttons: false,
+            })
+        })
+        .then(response => {
+            setTimeout(function () {
+                location.reload();
+            }, 1250);
+        })
+        .catch(error => {
+            swal({
+                title: "Error !",
+                text: "Purchase Bill Import Unuccessfull!",
+                icon: "warning",
+                buttons: false,
+            })
         });
-      } else {
-        swal({
-            title: 'Imported!',
-            text: jsonResponse.success,
-            icon: 'success',
-            buttons: false,
-        });
-      }
-    })
-    .then(response => {
-      setTimeout(function () {
-        location.reload();
-      }, 1400);
-    })
   }
 </script>
 

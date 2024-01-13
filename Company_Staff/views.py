@@ -7,6 +7,9 @@ from datetime import date
 from datetime import datetime, timedelta
 from Company_Staff.models import *
 import os
+import pandas as pd
+from django.http import JsonResponse
+from openpyxl import load_workbook
 # Create your views here.
 
 
@@ -885,3 +888,22 @@ def add_blood(request,pk):
         data=Bloodgroup(Blood_group=blood)
         data.save()
         return redirect('employee_overview',pk)
+def import_payroll_excel(request):
+    print(1)
+    print('hello')
+    if request.method == 'POST' :
+        if 'empfile' in request.FILES:
+            excel_bill = request.FILES['empfile']
+            excel_b = load_workbook(excel_bill)
+            eb = excel_b['Sheet1']
+            for row_number1 in range(1, eb.max_row + 1):
+                billsheet = [eb.cell(row=row_number1, column=col_num).value for col_num in range(1, eb.max_column + 1)]
+                payroll=payroll_employee(title=billsheet[0],first_name=billsheet[1],last_name=billsheet[2],alias=billsheet[3],joindate=billsheet[4],salary_type=billsheet[6],salary=billsheet[9],
+                            emp_number=billsheet[10],designation=billsheet[11],location=billsheet[12], gender=billsheet[13],dob=billsheet[14],blood=billsheet[15],parent=billsheet[16],spouse_name=billsheet[17],workhr=billsheet[8],
+                            amountperhr = billsheet[7], address=billsheet[19],permanent_address=billsheet[18],Phone=billsheet[20],emergency_phone=billsheet[21], email=billsheet[22],Income_tax_no=billsheet[32],Aadhar=billsheet[33],
+                            UAN=billsheet[34],PFN=billsheet[35],PRAN=billsheet[36],isTDS=billsheet[29],TDS_percentage=billsheet[30],salaryrange = billsheet[5],acc_no=billsheet[24],IFSC=billsheet[25],bank_name=billsheet[26],branch=billsheet[27],transaction_type=billsheet[28])
+                payroll.save()
+                messages.success(request,'file imported')
+                return redirect('employee_list')
+    messages.error(request,'File upload Failed!11')
+    return redirect('employee_list')
