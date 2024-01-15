@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from Company_Staff.models import *
 import os
 import pandas as pd
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse,HttpResponseRedirect
 from openpyxl import load_workbook
 # Create your views here.
 
@@ -753,10 +753,21 @@ def do_payroll_edit(request,pk):
             payroll.first_name=fname
             payroll.last_name=lname
             payroll.alias=alias
-            if len(request.FILES)!= 0:
-                if len(payroll.image)>0:
-                    os.remove(payroll.image.path)
-                    payroll.image=image
+            if len(request.FILES) != 0:
+                if image :
+                    if payroll.image:
+                        try:
+                            # Check if the file exists before removing it
+                            if os.path.exists(payroll.image.path):
+                                os.remove(payroll.image.path)
+                        except Exception as e:
+                            return redirect('payroll_employee_edit',pk)
+
+                        # Assign the new file to payroll.image
+                        payroll.image = image
+                    else:
+                        # Assign the new file to payroll.image
+                        payroll.image = image
             payroll.joindate=joindate
             payroll.salary_type=saltype
             payroll.salary=salary
@@ -782,9 +793,20 @@ def do_payroll_edit(request,pk):
             payroll.PFN=pfn
             payroll.PRAN=pran
             if len(request.FILES) !=0:
-                if len(payroll.uploaded_file)>0:
-                    os.remove(payroll.uploaded_file.path)
-                    payroll.uploaded_file=attach
+                if attach :
+                    if payroll.uploaded_file:
+                        try:
+                            # Check if the file exists before removing it
+                            if os.path.exists(payroll.uploaded_file.path):
+                                os.remove(payroll.uploaded_file.path)
+                        except Exception as e:
+                            return redirect('payroll_employee_edit',pk)
+
+                        # Assign the new file to payroll.image
+                        payroll.uploaded_file = attach
+                    else:
+                        # Assign the new file to payroll.image
+                        payroll.uploaded_file = attach
             payroll.isTDS=istdsval
             payroll.TDS_percentage=tds
             payroll.salaryrange = salarydate
@@ -806,10 +828,21 @@ def do_payroll_edit(request,pk):
             payroll.first_name=fname
             payroll.last_name=lname
             payroll.alias=alias
-            if image != 0:
-                if len(payroll.image)>0:
-                    os.remove(payroll.image.path)
-                    payroll.image=image
+            if len(request.FILES) != 0:
+                if image :
+                    if payroll.image:
+                        try:
+                            # Check if the file exists before removing it
+                            if os.path.exists(payroll.image.path):
+                                os.remove(payroll.image.path)
+                        except Exception as e:
+                            return redirect('payroll_employee_edit',pk)
+
+                        # Assign the new file to payroll.image
+                        payroll.image = image
+                    else:
+                        # Assign the new file to payroll.image
+                        payroll.image = image
             payroll.joindate=joindate
             payroll.salary_type=saltype
             payroll.salary=salary
@@ -834,10 +867,21 @@ def do_payroll_edit(request,pk):
             payroll.UAN=uan
             payroll.PFN=pfn
             payroll.PRAN=pran
-            if attach !=0:
-                if len(payroll.uploaded_file)>0:
-                    os.remove(payroll.uploaded_file.path)
-                    payroll.uploaded_file=attach
+            if len(request.FILES) !=0:
+                if attach :
+                    if payroll.uploaded_file:
+                        try:
+                            # Check if the file exists before removing it
+                            if os.path.exists(payroll.uploaded_file.path):
+                                os.remove(payroll.uploaded_file.path)
+                        except Exception as e:
+                            return redirect('payroll_employee_edit',pk)
+
+                        # Assign the new file to payroll.image
+                        payroll.uploaded_file = attach
+                    else:
+                        # Assign the new file to payroll.image
+                        payroll.uploaded_file = attach
             payroll.isTDS=istdsval
             payroll.TDS_percentage=tds
             payroll.salaryrange = salarydate
@@ -882,28 +926,58 @@ def employee_status(request,pk):
         data.status ='Active'
     data.save()
     return redirect('employee_overview',pk)
-def add_blood(request,pk):
-    if request.method =='POST':
-        blood=request.POST['blood']
-        data=Bloodgroup(Blood_group=blood)
-        data.save()
-        return redirect('employee_overview',pk)
+def add_blood(request):
+    if request.method == 'POST':
+        blood = request.POST.get('blood')
+        print(blood)
+
+        # Validate input
+        if not blood:
+            return JsonResponse({'message': 'Invalid or missing blood group'})
+
+        # Use get_or_create for simplicity
+        if Bloodgroup.objects.filter(Blood_group=blood):
+            return JsonResponse({'message': 'Blood group already exists'})
+        Bloodgroup.objects.create(Blood_group=blood)
+        return JsonResponse({'message': 'Blood group added'})
 def import_payroll_excel(request):
     print(1)
     print('hello')
     if request.method == 'POST' :
-        if 'empfile' in request.FILES:
-            excel_bill = request.FILES['empfile']
-            excel_b = load_workbook(excel_bill)
-            eb = excel_b['Sheet1']
-            for row_number1 in range(1, eb.max_row + 1):
-                billsheet = [eb.cell(row=row_number1, column=col_num).value for col_num in range(1, eb.max_column + 1)]
-                payroll=payroll_employee(title=billsheet[0],first_name=billsheet[1],last_name=billsheet[2],alias=billsheet[3],joindate=billsheet[4],salary_type=billsheet[6],salary=billsheet[9],
-                            emp_number=billsheet[10],designation=billsheet[11],location=billsheet[12], gender=billsheet[13],dob=billsheet[14],blood=billsheet[15],parent=billsheet[16],spouse_name=billsheet[17],workhr=billsheet[8],
-                            amountperhr = billsheet[7], address=billsheet[19],permanent_address=billsheet[18],Phone=billsheet[20],emergency_phone=billsheet[21], email=billsheet[22],Income_tax_no=billsheet[32],Aadhar=billsheet[33],
-                            UAN=billsheet[34],PFN=billsheet[35],PRAN=billsheet[36],isTDS=billsheet[29],TDS_percentage=billsheet[30],salaryrange = billsheet[5],acc_no=billsheet[24],IFSC=billsheet[25],bank_name=billsheet[26],branch=billsheet[27],transaction_type=billsheet[28])
-                payroll.save()
-                messages.success(request,'file imported')
-                return redirect('employee_list')
+        if 'login_id' in request.session:
+            log_id = request.session['login_id']
+        if 'login_id' not in request.session:
+            return redirect('/')
+        log_details= LoginDetails.objects.get(id=log_id)
+        if log_details.user_type == 'Staff':
+            dash_details = StaffDetails.objects.get(login_details=log_details)
+            if 'empfile' in request.FILES:
+                excel_bill = request.FILES['empfile']
+                excel_b = load_workbook(excel_bill)
+                eb = excel_b['Sheet1']
+                for row_number1 in range(2, eb.max_row + 1):
+                    billsheet = [eb.cell(row=row_number1, column=col_num).value for col_num in range(1, eb.max_column + 1)]
+                    payroll=payroll_employee(title=billsheet[0],first_name=billsheet[1],last_name=billsheet[2],alias=billsheet[3],joindate=billsheet[4],salary_type=billsheet[6],salary=billsheet[9],
+                                emp_number=billsheet[10],designation=billsheet[11],location=billsheet[12], gender=billsheet[13],dob=billsheet[14],blood=billsheet[15],parent=billsheet[16],spouse_name=billsheet[17],workhr=billsheet[8],
+                                amountperhr = billsheet[7], address=billsheet[19],permanent_address=billsheet[18],Phone=billsheet[20],emergency_phone=billsheet[21], email=billsheet[22],Income_tax_no=billsheet[32],Aadhar=billsheet[33],
+                                UAN=billsheet[34],PFN=billsheet[35],PRAN=billsheet[36],isTDS=billsheet[29],TDS_percentage=billsheet[30],salaryrange = billsheet[5],acc_no=billsheet[24],IFSC=billsheet[25],bank_name=billsheet[26],branch=billsheet[27],transaction_type=billsheet[28],company=dash_details.company,login_details=log_details)
+                    payroll.save()
+                    messages.info(request,'file imported')
+                    return redirect('employee_list')
+        if log_details.user_type == 'Company':
+            dash_details = CompanyDetails.objects.get(login_details=log_details)
+            if 'empfile' in request.FILES:
+                excel_bill = request.FILES['empfile']
+                excel_b = load_workbook(excel_bill)
+                eb = excel_b['Sheet1']
+                for row_number1 in range(2, eb.max_row + 1):
+                    billsheet = [eb.cell(row=row_number1, column=col_num).value for col_num in range(1, eb.max_column + 1)]
+                    payroll=payroll_employee(title=billsheet[0],first_name=billsheet[1],last_name=billsheet[2],alias=billsheet[3],joindate=billsheet[4],salary_type=billsheet[6],salary=billsheet[9],
+                                emp_number=billsheet[10],designation=billsheet[11],location=billsheet[12], gender=billsheet[13],dob=billsheet[14],blood=billsheet[15],parent=billsheet[16],spouse_name=billsheet[17],workhr=billsheet[8],
+                                amountperhr = billsheet[7], address=billsheet[19],permanent_address=billsheet[18],Phone=billsheet[20],emergency_phone=billsheet[21], email=billsheet[22],Income_tax_no=billsheet[32],Aadhar=billsheet[33],
+                                UAN=billsheet[34],PFN=billsheet[35],PRAN=billsheet[36],isTDS=billsheet[29],TDS_percentage=billsheet[30],salaryrange = billsheet[5],acc_no=billsheet[24],IFSC=billsheet[25],bank_name=billsheet[26],branch=billsheet[27],transaction_type=billsheet[28],company=dash_details,login_details=log_details)
+                    payroll.save()
+                    messages.info(request,'file imported')
+                    return redirect('employee_list')
     messages.error(request,'File upload Failed!11')
     return redirect('employee_list')

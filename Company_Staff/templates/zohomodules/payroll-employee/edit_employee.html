@@ -151,14 +151,25 @@
                                 <div class="col-5 col-lg-5 col-md-10 col-sm-12 text-center">
                                     <label for="">Upload Image</label>
                                 </div>
+                                {% if p.image %}
                                 <div class="col-6 col-lg-7 col-md-10 col-sm-12">
                                     <br><br><br><br>
                                     <label for="image-input">
-                                        <img class="img-fluid" src="{% static 'images/payrollimg.png' %}" alt="profile pic" width="190px" height="200px" id="img"
+                                        <img class="img-fluid" src="{{p.image.url}}" alt="profile pic" width="190px" height="200px" id="img"
                                             style="background-color: rgba(156, 156, 156, 0.267); border-radius: 30px;">
                                     </label>
                                     <input id="image-input" type="file" name="file" class="form-control" accept="image/*" onchange="loadFile(event)" style="display: none;">
                                 </div>
+                                {% else %}
+                                <div class="col-6 col-lg-7 col-md-10 col-sm-12">
+                                    <br><br><br><br>
+                                    <label for="image-input">
+                                        <img class="img-fluid" src="" alt="profile pic" width="190px" height="200px" id="img"
+                                            style="background-color: rgba(156, 156, 156, 0.267); border-radius: 30px;">
+                                    </label>
+                                    <input id="image-input" type="file" name="file" class="form-control" accept="image/*" onchange="loadFile(event)" style="display: none;">
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -229,9 +240,9 @@
                                         <option value="{{i.Blood_group}}" {% if p.blood == i.Blood_group %}selected{% endif %}>{{i.Blood_group}}</option>
                                         {% endfor %}
                                     </select>
-                                    <a class="btn-outline-warning" href="" data-toggle="modal" data-target="#commentModal" data-toggle="tooltip" title="comment">
+                                    <!-- <a class="btn-outline-warning" href="" data-toggle="modal" data-target="#commentModal" data-toggle="tooltip" title="comment">
                                         Add Blood group
-                                       </a>
+                                       </a> -->
                                 </div>
                                 
                             </div>
@@ -470,7 +481,7 @@
                             <span aria-hidden="true" style="font-size: x-large;">&times;</span>
                           </button>
                         </div>
-                        <form action="{% url 'add_blood' p.id %}" method="POST" enctype="multipart/form-data">
+                        <form action="{% url 'add_blood'  %}" method="POST" enctype="multipart/form-data">
                           {% csrf_token %}
                           <div class="modal-body">
                             <input type="text" class="form-control text-light" name="blood">

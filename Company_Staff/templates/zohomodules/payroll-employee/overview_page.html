@@ -119,28 +119,16 @@
                           <a class="btn btn-outline-warning" href="" data-toggle="modal" data-target="#commentModal" data-toggle="tooltip" title="comment">
                             <i class="far fa-comment"></i>
                           </a>
-                          <a class="btn btn-outline-warning" href="" id="dd1" data-bs-toggle="dropdown" aria-haspopup="true"
-                              data-toggle="tooltip" title="Download Attachments" aria-expanded="false" role="button">
-                            <i class="fas fa-download"></i>
+                          {% if p.uploaded_file != '' %}
+                          <a class="text-dark" href="{{ p.uploaded_file.url }}" download>
+                            <button class="btn btn-outline-warning"><i class="fas fa-download"></i></button>
+                        </a>
+                          {% else %}
+                          <a class=" text-dark" href="">
+                            <button class="btn btn-outline-warning"  ><i class="fas fa-download"></i></button> 
                           </a>
-                          <div class="dropdown-menu">
-                            {% if attach %}
-                              <table class="table table-borderless">
-                                {% for a in attach %}
-                                <tr>
-                                  <td>{{forloop.counter}}.</td>
-                                  <td><a href="">{{a.attachment.name}}</a></td>
-                                  <td><a href=""><i class="fas fa-trash"></i></a></td>
-                                </tr>
-                                {% endfor %}
-                              </table>
-                              {% else %}
-                                <div class="text-center">No Attachment found</div>
-                              {% endif %}
-                          </div>
-                          <label for="file-input" class="btn btn-outline-warning" data-toggle="tooltip" title="Upload Attachments">
-                              <i class="fas fa-paperclip"></i>
-                          </label>
+                          {% endif %}
+                        
                           <a href="{% url 'delete_employee' p.id %}" class="  text-dark" >
                             <button class="btn btn-outline-warning"  title="Delete"><i class="fas fa-trash-alt"></i></button>
                           </a>
@@ -181,7 +169,11 @@
                               <div class="col-2"></div>
                               <div class="col-6" style="text-align: center; ">
                                 <a href=" " >
-                                  <img class="img-fluid" src="{% static 'images/payrollimg.png' %}" alt="profile pic" width="119px" name="img">
+                                  {% if p.image != '' %}
+                                  <img class="img-fluid" src="{{p.image.url}}" alt="profile pic" width="119px" name="img">
+                                  {% else %}
+                                  <img class="img-fluid" alt="profile pic" width="119px" name="img">
+                                  {% endif %}
                                   <br><br>
                                   <p >{{p.title}} &nbsp;{{p.first_name}} &nbsp;{{p.last_name}}
                                   </p>
@@ -492,8 +484,9 @@
                               <span aria-hidden="true" style="font-size: x-large;">&times;</span>
                             </button>
                           </div>
-                          <div class="table-responsive text-light">
-                            <table class="table text-light">
+                          <div class="modal-body">
+                          <div class="container " >
+                            <table class="table text-light table-borderless " style="margin:3px; background-color: #000000;">
                               <thead>
                                 <tr>
                                   <th>
@@ -522,6 +515,7 @@
                               </tbody>
                             </table>
                           </div>
+                        </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Close</button>
   
