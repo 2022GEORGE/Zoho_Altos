@@ -565,11 +565,11 @@
               </button>
               <div class="dropdown-container" style="background-color: rgb(0, 0, 0);padding: 20px;justify-content: center;color: white;">
                 {% if allmodules.employees == 1  %}
-                <a href="" class="d-flex align-items-center gap-2 dropdown-item">
+                <a href="{% url 'employee_list' %}" class="d-flex align-items-center gap-2 dropdown-item">
                   <!-- <i class="ti ti-mail fs-6"></i> -->
                   <div class="d-flex">
-                    <a class="d-inline-block" style="color: #ffffff"
-                                        href="{% url 'employee_list' %}">Employees</a>
+                    <p class="mb-0 fs-3 " style="text-align: left;">
+                                    Employees</p>
                     <a href="{% url 'payroll_employee_create' %}" class="d-inline-block"> <span 
                       style="text-align: right; width: 25px;"><i class="fa fa-plus text-white " ></i></a></span>
                   </div>

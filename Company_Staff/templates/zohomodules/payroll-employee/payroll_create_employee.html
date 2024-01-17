@@ -88,8 +88,8 @@
                                     <select class="form-control text-dark bg-light" name="salary" id="sdate" required>
                                         <option value="" selected hidden>Select</option>
                                         <option value="1-10">1-10</option>
-                                        <option value="10-15">10-15</option>
-                                        <option value="15-31">15-31</option>
+                                        <option value="11-15">11-15</option>
+                                        <option value="16-31">16-31</option>
                                     </select>
                                 </div>
                             </div>
@@ -112,7 +112,7 @@
                                         <label for="">Salary Amount</label>
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" class="form-control text-dark bg-light" name="fsalary" id="fsalary">
+                                        <input type="number" class="form-control text-dark bg-light" name="fsalary" id="fsalary" value="0">
                                     </div>
                                 </div>
                             </div>
@@ -122,7 +122,7 @@
                                         <label for="">Amount per Hour</label>
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" class="form-control text-dark bg-light" name="amnthr" id="amnthr">
+                                        <input type="number" class="form-control text-dark bg-light" name="amnthr" id="amnthr" value="0">
                                     </div>
                                 </div>
                                 <div class="row pb-3">
@@ -130,7 +130,7 @@
                                         <label for="">Total working Hours</label>
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" class="form-control text-dark bg-light" name="hours" id="hours" onkeyup="calculateAmount()">
+                                        <input type="number" class="form-control text-dark bg-light" name="hours" id="hours" onkeyup="calculateAmount()" value="0">
                                     </div>
                                 </div>
                                 <div class="row pb-3">
@@ -138,7 +138,7 @@
                                         <label for="">Salary Amount</label>
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" class="form-control text-dark bg-light" name="vsalary" id="vsalary" readonly>
+                                        <input type="number" class="form-control text-dark bg-light" name="vsalary" id="vsalary" value="0" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +163,7 @@
         
                     <div class="gen-info row pt-5">
                         <div class="left col-6 col-lg-6 col-md-6 col-sm-12">
-                            <h4 class="text-center py-2">General information</h4>
+                            <h4 class="text-center py-2 text-light">General information</h4>
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Employee Number</label>
@@ -223,9 +223,9 @@
                                 </div>
                                 <div class="col-6">
                                     <select class="form-control text-dark bg-light" id="blood" name="blood" required>
-                                        {% for i in blood %}
-                                        <option value="{{i.Blood_group}}">{{i.Blood_group}}</option>
-                                        {% endfor %}
+                                     {% for i in blood %}
+                                     <option value="{{i.Blood_group}}">{{i.Blood_group}}</option>
+                                     {% endfor %}
                                     </select>
                                     <!-------------------------------------------------------------------------------------------------------------------------->
                                     <a class="btn-outline-warning" href="" data-toggle="modal" data-target="#commentModal" data-toggle="tooltip" title="comment">
@@ -327,13 +327,13 @@
                                 </div>
                             </div>
                             <div class="bank" id="bank" style="display: none;">
-                                <h4 class="text-center py-2">Bank information</h4>
+                                <h4 class="text-center py-2 text-light">Bank information</h4>
                                 <div class="row pb-3">
                                     <div class="col-6">
                                         <label for="">Account Number</label>
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" class="form-control text-dark bg-light" name="acc_no" id="acc_no" pattern="[0-9]{15}">
+                                        <input type="number" class="form-control text-dark bg-light" name="acc_no" id="acc_no" pattern="[0-9]{15}" value="0">
                                     </div>
                                 </div>
                                 <div class="row pb-3">
@@ -360,7 +360,7 @@
                                         <input type="text" class="form-control text-dark bg-light" name="branch" id="branch">
                                     </div>
                                 </div>
-                                <h5 class="text-center py-1">For Banking</h5>
+                                <h5 class="text-center py-1 text-light">For Banking</h5>
                                 <div class="row pb-3">
                                     <div class="col-6">
                                         <label for="">Transaction Type</label>
@@ -407,7 +407,7 @@
                                             <label for="">Percentage</label>
                                         </div>
                                         <div class="col-6">
-                                            <input type="number" class="form-control text-dark bg-light" name="pcnt" id="pcnt">
+                                            <input type="number" class="form-control text-dark bg-light" name="pcnt" id="pcnt" value="0">
                                         </div>
                                     </div>
                                 </div>
@@ -417,41 +417,41 @@
                                             <label for="">Amount</label>
                                         </div>
                                         <div class="col-6">
-                                            <input type="number" class="form-control text-dark bg-light" name="amnt" id="amnt">
+                                            <input type="number" class="form-control text-dark bg-light" name="amnt" id="amnt" value="0">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <h4 class="text-center py-2">Statutary information</h4>
+                            <h4 class="text-center py-2 text-light">Statutary information</h4>
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Income Tax Number</label>
                                 </div>
-                                <div class="col-6"><input type="number" class="form-control text-dark bg-light" name="itn" required></div>
+                                <div class="col-6"><input type="number" class="form-control text-dark bg-light" name="itn" value="0"></div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Aadhar Number</label>
                                 </div>
-                                <div class="col-6"><input type="text" class="form-control text-dark bg-light" name="an" id="an" required></div>
+                                <div class="col-6"><input type="text" class="form-control text-dark bg-light" name="an" id="an" value="0" required></div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Universal Account Number(UAN)</label>
                                 </div>
-                                <div class="col-6"><input type="number" class="form-control text-dark bg-light" name="uan" ></div>
+                                <div class="col-6"><input type="number" class="form-control text-dark bg-light" name="uan" value="0"></div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">PF Account Number (PFN)</label>
                                 </div>
-                                <div class="col-6"><input type="number" class="form-control text-dark bg-light" name="pfn" ></div>
+                                <div class="col-6"><input type="number" class="form-control text-dark bg-light" name="pfn" value="0"></div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">PR Account Number (PRAN)</label>
                                 </div>
-                                <div class="col-6"><input type="text" class="form-control text-dark bg-light" name="pran" ></div>
+                                <div class="col-6"><input type="text" class="form-control text-dark bg-light" name="pran" value="0"></div>
                             </div>
                         </div>
                     </div>
@@ -491,15 +491,22 @@
         </div>
         </div>
         <script>
+        var defaultDate = new Date();
+
+// Formatting the date to YYYY-MM-DD
+var formattedDate = defaultDate.toISOString().split('T')[0];
+
+// Setting the value of the input field
+document.getElementById("joindate").value = formattedDate;
+          </script>
+        <script>
             async function uploadBlood() {
                 const form = document.getElementById('blood1'); // Adjust the form ID if needed
                 const formData = new FormData(form);
         
-                // Show loading spinner or disable submit button
-                // ... (your code for showing/loading indicator)
         
                 
-               const response = await fetch('add_blood', {
+               var response = await fetch('add_blood', {
                     method: 'POST',
                     body: formData
                 })
@@ -508,26 +515,16 @@
                     console.log(result.message)
                     alert(result.message)
                     document.getElementById('blood1').reset();
+                    var newOption = document.createElement("option");
+        
+                // Set the value and text for the new option
+                    newOption.value = result.blood;
+                    newOption.text = result.blood;
+
+                    // Add the new option to the select dropdown
+                    document.getElementById("blood").appendChild(newOption);
                 }
             }
-        </script>
-        <script>
-            function fetchBloodGroups() {
-    $.ajax({
-        type: 'GET',
-        url: '/get_blood_groups/',  // URL of your Django view
-        success: function (data) {
-            // Update the UI with the fetched data
-            $('#bloodGroupList').empty();  // Clear the existing content
-            data.blood_groups.forEach(function (bloodGroup) {
-                $('#bloodGroupList').append('<div>' + bloodGroup.name + '</div>');
-            });
-        },
-        error: function (error) {
-            console.error('AJAX error:', error);
-        }
-    });
-}
         </script>
        
         
@@ -658,14 +655,14 @@
                 if (sal == 'Fixed' || sal == 'Temporary') {
                     document.getElementById("fixed").style.display = 'block'
                     document.getElementById("variable").style.display = 'none'
-                    document.getElementById("amnthr").value = ''
-                    document.getElementById("hours").value = ''
-                    document.getElementById("vsalary").value = ''
+                    document.getElementById("amnthr").value = 0
+                    document.getElementById("hours").value = 0
+                    document.getElementById("vsalary").value = 0
                 }
                 else if (sal == 'Variable') {
                     document.getElementById("variable").style.display = 'block'
                     document.getElementById("fixed").style.display = 'none'
-                    document.getElementById("fsalary").value = ''
+                    document.getElementById("fsalary").value = 0
                 }
             }
         
@@ -808,6 +805,15 @@
         blink();
     });
 </script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    {% for msg in messages %}
+    swal({
+    title: "{{msg}}",
+    text: "{{msg.tags}}",
+    icon: "{{msg.tags}}",
+  });
+    {% endfor %}
+   </script>
 
 {% endblock %}

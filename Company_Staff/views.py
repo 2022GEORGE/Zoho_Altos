@@ -491,6 +491,7 @@ def staff_password_change(request):
 
 # -------------------------------Zoho Modules section--------------------------------
 #------------------------------------payroll employee--------------------------------
+#------------------------------------------------GEORGE MATHEW---------------------------------------
 def payroll_employee_create(request):
     if 'login_id' in request.session:
         log_id = request.session['login_id']
@@ -509,6 +510,7 @@ def payroll_employee_create(request):
             'allmodules': allmodules,
             'log_id':log_details,
             'blood':blood
+            
     }
     return render(request,'zohomodules/payroll-employee/payroll_create_employee.html',content)
 def employee_list(request):
@@ -589,9 +591,9 @@ def create_employee(request):
             salary=request.POST['vsalary']
         image=request.FILES.get('file')
         amountperhr=request.POST['amnthr']
-        workhr=request.POST['hours']
+        workhr=request.POST['hours'] 
         empnum=request.POST['empnum']
-        if payroll_employee.objects.filter(emp_number=empnum):
+        if payroll_employee.objects.filter(emp_number=empnum,login_details=log_details):
             messages.info(request,'employee number all ready exists')
             return redirect('payroll_employee_create')
         designation = request.POST['designation']
@@ -609,11 +611,11 @@ def create_employee(request):
         paddress= padd1+padd2
         phone=request.POST['phone']
         ephone=request.POST['ephone']
-        if payroll_employee.objects.filter(Phone=phone) or  payroll_employee.objects.filter(emergency_phone=ephone):
+        if payroll_employee.objects.filter(Phone=phone,login_details=log_details) or  payroll_employee.objects.filter(emergency_phone=ephone,login_details=log_details):
             messages.info(request,'Number Alreday exists already exists')
             return redirect('payroll_employee_create')
         email=request.POST['email']
-        if payroll_employee.objects.filter(email=email):
+        if payroll_employee.objects.filter(email=email,login_details=log_details):
             messages.info(request,'email already exists')
             return redirect('payroll_employee_create')
         isdts=request.POST['tds']
@@ -648,7 +650,8 @@ def create_employee(request):
             payroll.save()
             history=employee_history(company=dash_details,login_details=log_details, employee=payroll,Action='CREATED')
             history.save()
-            return redirect('payroll_employee_create')
+            messages.info(request,'employee created')
+            return redirect('employee_list')
         if log_details.user_type == 'Staff':
             dash_details = StaffDetails.objects.get(login_details=log_details)
             payroll= payroll_employee(title=title,first_name=fname,last_name=lname,alias=alias,image=image,joindate=joindate,salary_type=saltype,salary=salary,age=age,
@@ -658,7 +661,8 @@ def create_employee(request):
             payroll.save()
             history=employee_history(company=dash_details.company,login_details=log_details, employee=payroll,Action='CREATED')
             history.save()
-            return redirect('payroll_employee_create')
+            messages.info(request,'employee created')
+            return redirect('employee_list')
     return redirect('payroll_employee_create')
 def payroll_employee_edit(request,pk):
     if 'login_id' in request.session:
@@ -682,7 +686,7 @@ def payroll_employee_edit(request,pk):
             'allmodules': allmodules,
             'p':p,
             'log_id':log_details,
-             'blood':blood
+            'blood':blood
     }
     return render(request,'zohomodules/payroll-employee/edit_employee.html',content)
 def do_payroll_edit(request,pk):
@@ -707,6 +711,10 @@ def do_payroll_edit(request,pk):
         amountperhr=request.POST['amnthr']
         workhr=request.POST['hours']
         empnum=request.POST['empnum']
+        result_set2 = payroll_employee.objects.filter(login_details=log_details,emp_number=empnum).exclude(id=pk)
+        if result_set2:
+            messages.error(request,'employee number  already exists')
+            return redirect('payroll_employee_edit',pk)
         designation = request.POST['designation']
         location=request.POST['location']
         gender=request.POST['gender']
@@ -722,7 +730,15 @@ def do_payroll_edit(request,pk):
         paddress= padd1+padd2
         phone=request.POST['phone']
         ephone=request.POST['ephone']
+        result_set1 = payroll_employee.objects.filter(login_details=log_details,Phone=phone).exclude(id=pk)
+        if result_set1:
+            messages.error(request,'phone no already exists')
+            return redirect('payroll_employee_edit',pk)
         email=request.POST['email']
+        result_set = payroll_employee.objects.filter(login_details=log_details,email=email).exclude(id=pk)
+        if result_set:
+            messages.error(request,'email already exists')
+            return redirect('payroll_employee_edit',pk)
         isdts=request.POST['tds']
         attach=request.FILES.get('attach')
         if isdts == '1':
@@ -780,7 +796,7 @@ def do_payroll_edit(request,pk):
             payroll.blood=blood
             payroll.parent=fmname
             payroll.spouse_name=sname
-            payroll.workhr=workhr,
+            payroll.workhr=workhr
             payroll.amountperhr = amountperhr
             payroll.address=address
             payroll.permanent_address=paddress
@@ -820,6 +836,7 @@ def do_payroll_edit(request,pk):
             payroll.save()
             history=employee_history(company=dash_details,login_details=log_details, employee=payroll,Action='EDITED')
             history.save()
+            messages.info(request,'Updated')
             return redirect('employee_overview',pk)
         if log_details.user_type == 'Staff':
             dash_details = StaffDetails.objects.get(login_details=log_details)
@@ -855,7 +872,7 @@ def do_payroll_edit(request,pk):
             payroll.blood=blood
             payroll.parent=fmname
             payroll.spouse_name=sname
-            payroll.workhr=workhr,
+            payroll.workhr=workhr
             payroll.amountperhr = amountperhr
             payroll.address=address
             payroll.permanent_address=paddress
@@ -895,6 +912,7 @@ def do_payroll_edit(request,pk):
             payroll.save()
             history=employee_history(company=dash_details.company,login_details=log_details, employee=payroll,Action='EDITED')
             history.save()
+            messages.info(request,'Updated')
             return redirect('employee_overview',pk)
     return redirect('employee_overview',pk)
 def add_comment(request,pk):
@@ -939,7 +957,8 @@ def add_blood(request):
         if Bloodgroup.objects.filter(Blood_group=blood):
             return JsonResponse({'message': 'Blood group already exists'})
         Bloodgroup.objects.create(Blood_group=blood)
-        return JsonResponse({'message': 'Blood group added'})
+        data=Bloodgroup.objects.all()
+        return JsonResponse({'message': 'Blood group added','blood' : blood})
 def import_payroll_excel(request):
     print(1)
     print('hello')
@@ -957,11 +976,13 @@ def import_payroll_excel(request):
                 eb = excel_b['Sheet1']
                 for row_number1 in range(2, eb.max_row + 1):
                     billsheet = [eb.cell(row=row_number1, column=col_num).value for col_num in range(1, eb.max_column + 1)]
-                    payroll=payroll_employee(title=billsheet[0],first_name=billsheet[1],last_name=billsheet[2],alias=billsheet[3],joindate=billsheet[4],salary_type=billsheet[6],salary=billsheet[9],
-                                emp_number=billsheet[10],designation=billsheet[11],location=billsheet[12], gender=billsheet[13],dob=billsheet[14],blood=billsheet[15],parent=billsheet[16],spouse_name=billsheet[17],workhr=billsheet[8],
+                    payroll=payroll_employee(title=billsheet[0],first_name=billsheet[1],last_name=billsheet[2],alias=billsheet[3],joindate=datetime.date.fromisoformat(billsheet[4]),salary_type=billsheet[6],salary=billsheet[9],
+                                emp_number=billsheet[10],designation=billsheet[11],location=billsheet[12], gender=billsheet[13],dob=datetime.date.fromisoformat(billsheet[14]),blood=billsheet[15],parent=billsheet[16],spouse_name=billsheet[17],workhr=billsheet[8],
                                 amountperhr = billsheet[7], address=billsheet[19],permanent_address=billsheet[18],Phone=billsheet[20],emergency_phone=billsheet[21], email=billsheet[22],Income_tax_no=billsheet[32],Aadhar=billsheet[33],
                                 UAN=billsheet[34],PFN=billsheet[35],PRAN=billsheet[36],isTDS=billsheet[29],TDS_percentage=billsheet[30],salaryrange = billsheet[5],acc_no=billsheet[24],IFSC=billsheet[25],bank_name=billsheet[26],branch=billsheet[27],transaction_type=billsheet[28],company=dash_details.company,login_details=log_details)
                     payroll.save()
+                    history=employee_history(company=dash_details.company,login_details=log_details, employee=payroll,Action='IMPORTED')
+                    history.save()
                     messages.info(request,'file imported')
                     return redirect('employee_list')
         if log_details.user_type == 'Company':
@@ -977,7 +998,34 @@ def import_payroll_excel(request):
                                 amountperhr = billsheet[7], address=billsheet[19],permanent_address=billsheet[18],Phone=billsheet[20],emergency_phone=billsheet[21], email=billsheet[22],Income_tax_no=billsheet[32],Aadhar=billsheet[33],
                                 UAN=billsheet[34],PFN=billsheet[35],PRAN=billsheet[36],isTDS=billsheet[29],TDS_percentage=billsheet[30],salaryrange = billsheet[5],acc_no=billsheet[24],IFSC=billsheet[25],bank_name=billsheet[26],branch=billsheet[27],transaction_type=billsheet[28],company=dash_details,login_details=log_details)
                     payroll.save()
+                    history=employee_history(company=dash_details,login_details=log_details, employee=payroll,Action='IMPORTED')
+                    history.save()
                     messages.info(request,'file imported')
                     return redirect('employee_list')
     messages.error(request,'File upload Failed!11')
     return redirect('employee_list')
+def add_file(request,pk):
+    if request.method == 'POST':
+        data=request.FILES.get('file')
+        payroll=payroll_employee.objects.get(id=pk)
+        if payroll.uploaded_file:
+            try:
+                                # Check if the file exists before removing it
+                if os.path.exists(payroll.uploaded_file.path):
+                    os.remove(payroll.uploaded_file.path)
+            except Exception as e:
+                messages.error(request,'file upload error')
+                return redirect('employee_overview',pk)
+
+                            # Assign the new file to payroll.image
+            payroll.uploaded_file = data
+            payroll.save()
+            messages.info(request,'fil uploaded')
+            return redirect('employee_overview',pk)
+        else:
+            payroll.uploaded_file = data
+            payroll.save()
+        messages.info(request,'fil uploaded')
+        return redirect('employee_overview',pk)
+
+    

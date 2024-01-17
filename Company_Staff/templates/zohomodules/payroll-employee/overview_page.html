@@ -119,13 +119,13 @@
                           <a class="btn btn-outline-warning" href="" data-toggle="modal" data-target="#commentModal" data-toggle="tooltip" title="comment">
                             <i class="far fa-comment"></i>
                           </a>
-                          {% if p.uploaded_file != '' %}
+                          {% if p.uploaded_file %}
                           <a class="text-dark" href="{{ p.uploaded_file.url }}" download>
-                            <button class="btn btn-outline-warning"><i class="fas fa-download"></i></button>
+                            <button class="btn btn-outline-warning" title="download"><i class="fas fa-download"></i></button>
                         </a>
                           {% else %}
-                          <a class=" text-dark" href="">
-                            <button class="btn btn-outline-warning"  ><i class="fas fa-download"></i></button> 
+                          <a class="btn btn-outline-warning" href="" data-toggle="modal" title="upload" data-target="#commentModal3" data-toggle="tooltip" title="comment">
+                            <i class="fa-solid fa-upload"></i>
                           </a>
                           {% endif %}
                         
@@ -333,7 +333,7 @@
                                 </div>
                               {% endif %}
               
-                              <div class="h3 mt-4 " style="margin-right: 2vh;">
+                              <div class="h3 mt-4 text-light " style="margin-right: 2vh;">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statutary Info
                                 <hr>
                               </div>
@@ -441,10 +441,10 @@
                           </div>
                           <form action="{% url 'add_comment' p.id %}" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <div class="modal-body">
+                            <div class="modal-body" style="background-color: #3b3b3b;">
                               <textarea type="text" class="form-control text-light" name="comments"></textarea>
                               <div class="container-fluid">
-                                <table class="table  text-white">
+                                <table class="table  text-white" style="margin:3px; background-color: #000000;">
                                   <thead>
                                     <tr>
                                       <th style="text-align: center; font-size: large;">sl no.</th>
@@ -521,6 +521,29 @@
   
                           </div>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--------------------------------------------------------------------------------------->
+                  <div class="modal fade" id="commentModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true" style="margin-top: 8vh;">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content" style="background-color: #3b3b3b;">
+                        <div class="modal-header">
+                          <h3 class="modal-title text-light" id="exampleModalLabel">Add FILE</h3>
+                          <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="font-size: x-large;">&times;</span>
+                          </button>
+                        </div>
+                        <form action="{% url 'add_file' p.id %}" method="POST" enctype="multipart/form-data">
+                          {% csrf_token %}
+                          <div class="modal-body">
+                            <input type="file" name="file" required class="form-control">
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-outline-warning">Save</button>
+                          </div>
+                        </form>
                       </div>
                     </div>
                   </div>
@@ -944,4 +967,14 @@ var element = document.getElementById('div-to-pdf')
     }
   }
 </script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    {% for msg in messages %}
+    swal({
+    title: "{{msg}}",
+    text: "{{msg.tags}}",
+    icon: "{{msg.tags}}",
+  });
+    {% endfor %}
+   </script>
 {% endblock %}

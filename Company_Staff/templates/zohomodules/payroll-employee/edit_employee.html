@@ -90,8 +90,8 @@
                                     <select class="form-control text-dark bg-light" name="salary" id="sdate" required>
                                         <option value="" selected hidden>Select</option>
                                         <option value="1-10" {% if p.salaryrange == '1-10' %}selected{% endif %}>1-10</option>
-                                        <option value="10-15" {% if p.salaryrange == '10-15' %}selected{% endif %}>10-15</option>
-                                        <option value="15-31" {% if p.salaryrange == '15-31' %}selected{% endif %}>15-31</option>
+                                        <option value="11-15" {% if p.salaryrange == '11-15' %}selected{% endif %}>11-15</option>
+                                        <option value="16-31" {% if p.salaryrange == '16-31' %}selected{% endif %}>16-31</option>
                                     </select>
                                 </div>
                             </div>
@@ -124,7 +124,7 @@
                                         <label for="">Amount per Hour</label>
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" class="form-control text-dark bg-light" name="amnthr" id="amnthr" value="{{p.amountperhr}}">
+                                        <input type="number" class="form-control text-dark bg-light" name="amnthr" id="amnthr" {% if p.amountperhr %}  value="{{p.amountperhr}}" {% endif %}>
                                     </div>
                                 </div>
                                 <div class="row pb-3">
@@ -132,7 +132,7 @@
                                         <label for="">Total working Hours</label>
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" class="form-control text-dark bg-light" name="hours" id="hours" onkeyup="calculateAmount()" value="{{p.workhr}}">
+                                        <input type="number" class="form-control text-dark bg-light" name="hours" id="hours" onkeyup="calculateAmount()" {% if p.workhr %} value="{{p.workhr}}"{% endif %}>
                                     </div>
                                 </div>
                                 <div class="row pb-3">
@@ -176,7 +176,7 @@
         
                     <div class="gen-info row pt-5">
                         <div class="left col-6 col-lg-6 col-md-6 col-sm-12">
-                            <h4 class="text-center py-2">General information</h4>
+                            <h4 class="text-center py-2 text-light">General information</h4>
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Employee Number</label>
@@ -337,7 +337,7 @@
                                 </div>
                             </div>
                             <div class="bank" id="bank" style="display: none;">
-                                <h4 class="text-center py-2">Bank information</h4>
+                                <h4 class="text-center py-2 text-light">Bank information</h4>
                                 <div class="row pb-3">
                                     <div class="col-6">
                                         <label for="">Account Number</label>
@@ -370,7 +370,7 @@
                                         <input type="text" value="{{p.branch}}" class="form-control text-dark bg-light" name="branch" id="branch">
                                     </div>
                                 </div>
-                                <h5 class="text-center py-1">For Banking</h5>
+                                <h5 class="text-center py-1 text-light">For Banking</h5>
                                 <div class="row pb-3">
                                     <div class="col-6">
                                         <label for="">Transaction Type</label>
@@ -432,7 +432,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <h4 class="text-center py-2">Statutary information</h4>
+                            <h4 class="text-center py-2 text-light">Statutary information</h4>
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Income Tax Number</label>
@@ -649,14 +649,14 @@ function validateform() {
                 if (sal == 'Fixed' || sal == 'Temporary') {
                     document.getElementById("fixed").style.display = 'block'
                     document.getElementById("variable").style.display = 'none'
-                    document.getElementById("amnthr").value = ''
-                    document.getElementById("hours").value = ''
-                    document.getElementById("vsalary").value = ''
+                    document.getElementById("amnthr").value = 0
+                    document.getElementById("hours").value = 0
+                    document.getElementById("vsalary").value = 0
                 }
                 else if (sal == 'Variable') {
                     document.getElementById("variable").style.display = 'block'
                     document.getElementById("fixed").style.display = 'none'
-                    document.getElementById("fsalary").value = ''
+                    document.getElementById("fsalary").value = 0
                 }
             }
         

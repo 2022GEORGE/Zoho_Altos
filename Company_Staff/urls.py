@@ -49,5 +49,7 @@ urlpatterns = [
     path('Company/employee_status/<int:pk>',views.employee_status,name='employee_status'),
     path('Company/add_blood',views.add_blood,name='add_blood'),
     path('company/import_payroll_excel',views.import_payroll_excel,name='import_payroll_excel'),
+    path('Company/add_file/<int:pk>',views.add_file,name='add_file'),
+    
     
 ]
