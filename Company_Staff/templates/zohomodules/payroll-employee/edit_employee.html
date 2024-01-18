@@ -21,9 +21,9 @@
                   <div class="row mt-4">
         <section>
             <div class="container pl-5">
-                <div class="header pb-5 text-light">
+                <div class=" text-light">
                     <h2 style="text-align: center;color: white;">EDIT EMPLOYEE</h2>
-                    <hr>
+                    <hr class="text-warning font-weight-bold">
                     {% for message in messages %}
                     <h5>
                         <div class="alert alert-danger message">
@@ -173,10 +173,12 @@
                             </div>
                         </div>
                     </div>
-        
+                    
                     <div class="gen-info row pt-5">
-                        <div class="left col-6 col-lg-6 col-md-6 col-sm-12">
+                       
                             <h4 class="text-center py-2 text-light">General information</h4>
+                            <hr class="text-warning font-weight-bold">
+                            <div class="left col-lg-6 col-sm-6">
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Employee Number</label>
@@ -236,6 +238,8 @@
                                 </div>
                                 <div class="col-6">
                                     <select class="form-control text-dark bg-light" id="blood" name="blood" required>
+                                        <option value="A+">A+</option>
+                                        <option value="B+">B+</option>
                                         {% for i in blood %}
                                         <option value="{{i.Blood_group}}" {% if p.blood == i.Blood_group %}selected{% endif %}>{{i.Blood_group}}</option>
                                         {% endfor %}
@@ -260,26 +264,6 @@
                                 </div>
                                 <div class="col-6">
                                     <input type="text" value="{{p.spouse_name}}" class="form-control text-dark bg-light" name="s_name">
-                                </div>
-                            </div>
-                            <div class="row pb-3">
-                                <div class="col-6">
-                                    <label for="">Permanent Address</label>
-                                </div>
-                                <div class="col-6">
-                                    <textarea class="form-control text-dark bg-light mb-2 pt-0" name="paddress" id="padrs1" onkeyup="clearaddreass(this.id)" required value="">{{p.permanent_address}}</textarea>
-                                    <textarea class="form-control text-dark bg-light pt-0" name="paddress2" id="padrs2" onkeyup="clearaddreass(this.id)"></textarea>
-                                </div>
-                            </div>
-                            <div class="row pb-4">
-                                <div class="col-6">
-                                    <label for="">Temporary Address</label>
-                                </div>
-                                <div class="col-6">
-                                    <input class="mx-2" type="checkbox" id="filladdress" name="filladdress">
-                                    <label style="font-size: .8rem;">Same as permanent address</label>
-                                    <textarea class="form-control text-dark bg-light mb-2 pt-0" name="address" id="adrs1" onkeyup="clearaddreass(this.id)">{{p.address}}</textarea>
-                                    <textarea class="form-control text-dark bg-light pt-0" name="address2" id="adrs2" onkeyup="clearaddreass(this.id)"></textarea>
                                 </div>
                             </div>
                             <div class="row pb-3">
@@ -312,6 +296,30 @@
                                     <div id="error" class="text-danger"></div>
                                 </div>
                             </div>
+                            
+                        </div>
+                        <div class="col-lg-5 col-sm-5">
+
+                            <div class="row pb-3">
+                                <div class="col-6">
+                                    <label for="">Permanent Address</label>
+                                </div>
+                                <div class="col-6">
+                                    <textarea class="form-control text-dark bg-light mb-2 pt-0" name="paddress" id="padrs1" onkeyup="clearaddreass(this.id)" required value="">{{p.permanent_address}}</textarea>
+                                    <textarea class="form-control text-dark bg-light pt-0" name="paddress2" id="padrs2" onkeyup="clearaddreass(this.id)"></textarea>
+                                </div>
+                            </div>
+                            <div class="row pb-4">
+                                <div class="col-6">
+                                    <label for="">Temporary Address</label>
+                                </div>
+                                <div class="col-6">
+                                    <input class="mx-2" type="checkbox" id="filladdress" name="filladdress">
+                                    <label style="font-size: .8rem;">Same as permanent address</label>
+                                    <textarea class="form-control text-dark bg-light mb-2 pt-0" name="address" id="adrs1" onkeyup="clearaddreass(this.id)">{{p.address}}</textarea>
+                                    <textarea class="form-control text-dark bg-light pt-0" name="address2" id="adrs2" onkeyup="clearaddreass(this.id)"></textarea>
+                                </div>
+                            </div>
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Attachments</label>
@@ -320,10 +328,6 @@
                                     <input class="form-control" id="file-upload" type="file" name="attach" style="background: transparent;">
                                 </div>
                             </div>
-                        </div>
-        
-                        <div class="col-6 col-lg-6 col-md-6 col-sm-12 pt-3 mt-2">
-                            <br>
                             <div class="row pb-4">
                                 <div class="col-6">
                                     <label for="">Provide Bank Details</label>
@@ -336,8 +340,26 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="row pb-3">
+                                <div class="col-6">
+                                    <label for="">TDS Applicable</label>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-control text-dark bg-light" name="tds" id="tds" onchange="tdsFunction()"
+                                        required>
+                                        <option value="" selected hidden>Select</option>
+                                        <option value="1"{% if p.TDS_percentage != 0 %}selected{% endif %}>Yes</option>
+                                        <option value="0"{% if p.TDS_percentage == 0 %}selected{% endif %}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
                             <div class="bank" id="bank" style="display: none;">
                                 <h4 class="text-center py-2 text-light">Bank information</h4>
+                                <hr class="text-warning font-weight-bold">
                                 <div class="row pb-3">
                                     <div class="col-6">
                                         <label for="">Account Number</label>
@@ -370,7 +392,6 @@
                                         <input type="text" value="{{p.branch}}" class="form-control text-dark bg-light" name="branch" id="branch">
                                     </div>
                                 </div>
-                                <h5 class="text-center py-1 text-light">For Banking</h5>
                                 <div class="row pb-3">
                                     <div class="col-6">
                                         <label for="">Transaction Type</label>
@@ -385,54 +406,52 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row pb-3">
-                                <div class="col-6">
-                                    <label for="">TDS Applicable</label>
-                                </div>
-                                <div class="col-6">
-                                    <select class="form-control text-dark bg-light" name="tds" id="tds" onchange="tdsFunction()"
-                                        required>
-                                        <option value="" selected hidden>Select</option>
-                                        <option value="1"{% if p.TDS_percentage != 0 %}selected{% endif %}>Yes</option>
-                                        <option value="0"{% if p.TDS_percentage == 0 %}selected{% endif %}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="tds-div" style="display: none;">
-                                <div class="row pb-3">
-                                    <div class="col-6">
-                                        <label for="">Percentage/Amount</label>
-                                    </div>
-                                    <div class="col-6">
-                                        <select class="form-control text-dark bg-light" name="pora" id="pora" onchange="tdsFunction2()">
-                                            <option value="" selected hidden>Select</option>
-                                            <option value="Percentage"{% if p.isTDS == 'Percentage' %}selected{% endif %}>Percentage</option>
-                                            <option value="Amount"{% if p.isTDS == 'Amount' %}selected{% endif %}>Amount</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="p" style="display: none;">
+                                
+                                <div id="tds-div" style="display: none;">
+                                    <h5 class="text-center py-1 text-light">For Banking</h5>
+                                    <hr class="text-warning font-weight-bold">
+                                    
                                     <div class="row pb-3">
                                         <div class="col-6">
-                                            <label for="">Percentage</label>
+                                            <label for="">Percentage/Amount</label>
                                         </div>
                                         <div class="col-6">
-                                            <input type="number" class="form-control text-dark bg-light" name="pcnt" id="pcnt" value="{{p.TDS_percentage}}">
+                                            <select class="form-control text-dark bg-light" name="pora" id="pora" onchange="tdsFunction2()">
+                                                <option value="" selected hidden>Select</option>
+                                                <option value="Percentage"{% if p.isTDS == 'Percentage' %}selected{% endif %}>Percentage</option>
+                                                <option value="Amount"{% if p.isTDS == 'Amount' %}selected{% endif %}>Amount</option>
+                                            </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div id="a" style="display: none;">
-                                    <div class="row pb-3">
-                                        <div class="col-6">
-                                            <label for="">Amount</label>
+                                    <div id="p" style="display: none;">
+                                        <div class="row pb-3">
+                                            <div class="col-6">
+                                                <label for="">Percentage</label>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="number" class="form-control text-dark bg-light" name="pcnt" id="pcnt" value="{{p.TDS_percentage}}">
+                                            </div>
                                         </div>
-                                        <div class="col-6">
-                                            <input type="number" class="form-control text-dark bg-light" name="amnt" id="amnt" value="{{p.TDS_percentage}}">
+                                    </div>
+                                    <div id="a" style="display: none;">
+                                        <div class="row pb-3">
+                                            <div class="col-6">
+                                                <label for="">Amount</label>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="number" class="form-control text-dark bg-light" name="amnt" id="amnt" value="{{p.TDS_percentage}}">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                        </div>
+
+                        <div class="row">
                             <h4 class="text-center py-2 text-light">Statutary information</h4>
+                            <hr class="text-warning font-weight-bold">
+                            <div class="col-6 col-sm-6 col-lg-6">
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Income Tax Number</label>
@@ -443,7 +462,7 @@
                                 <div class="col-6">
                                     <label for="">Aadhar Number(*)</label>
                                 </div>
-                                <div class="col-6"><input type="text" value="{{p.Aadhar}}" class="form-control text-dark bg-light" name="an" id="an" required></div>
+                                <div class="col-6"><input type="text" value="{{p.Aadhar}}" class="form-control text-dark bg-light" name="an" id="an" required pattern="{14}"></div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col-6">
@@ -451,6 +470,8 @@
                                 </div>
                                 <div class="col-6"><input type="number" value="{{p.UAN}}" class="form-control text-dark bg-light" name="uan" ></div>
                             </div>
+                            </div>
+                            <div class="col-6 col-sm-6 col-lg-6">
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">PF Account Number (PFN)</label>
@@ -464,7 +485,10 @@
                                 <div class="col-6"><input type="text" value="{{p.PRAN}}" class="form-control text-dark bg-light" name="pran" ></div>
                             </div>
                         </div>
+                        </div>
+        
                     </div>
+                    
                     <hr>
                     <div class="action-button">
                         <button class="btn text-light" type="submit" style="background-color: chocolate; width: 150px; font-size: medium;">Add</button>
@@ -612,7 +636,7 @@ function validateform() {
                 var e = document.getElementById("dropId").value;
                 if (e == 0) {
                     document.getElementById("bank").style.display = 'none'
-                    document.getElementById("acc_no").value = ''
+                    document.getElementById("acc_no").value = 0
                     document.getElementById("ifsc").value = ''
                     document.getElementById("b_name").value = ''
                     document.getElementById("branch").value = ''
@@ -624,6 +648,20 @@ function validateform() {
                      
             })
             })
+            function bankdisplay() {
+        var e = document.getElementById("dropId").value;
+        if (e == 0) {
+            document.getElementById("bank").style.display = 'none'
+            document.getElementById("acc_no").value = 0
+            document.getElementById("ifsc").value =''
+            document.getElementById("b_name").value = ''
+            document.getElementById("branch").value = ''
+            document.getElementById("ttype").value = ''
+        }
+        else {
+            document.getElementById("bank").style.display = 'block'
+        }
+    }
         
             $(document).ready(function() {
                 $('#sal').ready(function(){
@@ -632,14 +670,14 @@ function validateform() {
                 if (sal == 'Fixed' || sal == 'Temporary') {
                     document.getElementById("fixed").style.display = 'block'
                     document.getElementById("variable").style.display = 'none'
-                    document.getElementById("amnthr").value = ''
-                    document.getElementById("hours").value = ''
-                    document.getElementById("vsalary").value = ''
+                    document.getElementById("amnthr").value = 0
+                    document.getElementById("hours").value = 0
+                    document.getElementById("vsalary").value = 0
                 }
                 else if (sal == 'Variable') {
                     document.getElementById("variable").style.display = 'block'
                     document.getElementById("fixed").style.display = 'none'
-                    document.getElementById("fsalary").value = ''
+                    document.getElementById("fsalary").value = 0
                 }
             })
  })
@@ -685,12 +723,13 @@ function validateform() {
                 }
                 else {
                     document.getElementById("tds-div").style.display = 'none'
-                    document.getElementById("pora").value = ''
-                    document.getElementById("pcnt").value = ''
-                    document.getElementById("amnt").value = ''
+                    document.getElementById("pora").value = 0
+                    document.getElementById("pcnt").value = 0
+                    document.getElementById("amnt").value = 0
                 }
             })
             })
+
         
            $(document).ready(function(){
             $('#pora').ready(function(){
@@ -699,15 +738,43 @@ function validateform() {
                 if (sal == 'Percentage') {
                     document.getElementById("p").style.display = 'block';
                     document.getElementById("a").style.display = 'none';
-                    document.getElementById("amnt").value = ''
+                    document.getElementById("amnt").value = 0
                 }
                 else if (sal == 'Amount') {
                     document.getElementById("a").style.display = 'block';
                     document.getElementById("p").style.display = 'none'
-                    document.getElementById("pcnt").value = ''
+                    document.getElementById("pcnt").value = 0
                 }
                 })
             })
+            function tdsFunction() {
+                var e = document.getElementById("tds");
+                var sal = e.value;
+                if (sal == '1') {
+                    document.getElementById("tds-div").style.display = 'block'
+                }
+                else {
+                    document.getElementById("tds-div").style.display = 'none'
+                    document.getElementById("pora").value = 0
+                    document.getElementById("pcnt").value = 0
+                    document.getElementById("amnt").value = 0
+                }
+            }
+        
+            function tdsFunction2() {
+                var e = document.getElementById("pora");
+                var sal = e.value;
+                if (sal == 'Percentage') {
+                    document.getElementById("p").style.display = 'block';
+                    document.getElementById("a").style.display = 'none';
+                    document.getElementById("amnt").value = 0
+                }
+                else if (sal == 'Amount') {
+                    document.getElementById("a").style.display = 'block';
+                    document.getElementById("p").style.display = 'none'
+                    document.getElementById("pcnt").value = 0
+                }
+            }
         
             function emailvalidate() {
                 var email = document.getElementById('email')

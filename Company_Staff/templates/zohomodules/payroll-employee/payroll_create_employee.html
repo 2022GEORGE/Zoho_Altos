@@ -21,7 +21,7 @@
             <div class="container pl-5" style="color:white;">
                 <div class="header pb-5">
                     <h2 style="text-align: center;color:white;">CREATE EMPLOYEE</h2>
-                    <hr>
+                    <hr class="text-warning font-weight-bold">
                     {% for message in messages %}
                     <h5>
                         <div class="alert alert-danger message">
@@ -162,14 +162,16 @@
                     </div>
         
                     <div class="gen-info row pt-5">
-                        <div class="left col-6 col-lg-6 col-md-6 col-sm-12">
+                       
                             <h4 class="text-center py-2 text-light">General information</h4>
+                            <hr class="text-warning font-weight-bold">
+                            <div class="left col-lg-6 col-sm-6">
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Employee Number</label>
                                 </div>
                                 <div class="col-6">
-                                    <input type="text" class="form-control text-dark bg-light" name="empnum" id="empnum" onkeyup="empValidation(document.getElementById('empnum'))" required>
+                                    <input type="text" class="form-control text-dark bg-light" name="empnum" id="empnum" onkeyup="empValidation(document.getElementById('empnum'))" required >
                                 </div>
                             </div>
                             <div class="row pb-3">
@@ -177,7 +179,7 @@
                                     <label for="">Designation</label>
                                 </div>
                                 <div class="col-6">
-                                    <input type="text" class="form-control text-dark bg-light" name="designation" required>
+                                    <input type="text" class="form-control text-dark bg-light" name="designation" required >
                                 </div>
                             </div>
                             <div class="row pb-3">
@@ -185,7 +187,7 @@
                                     <label for="">Location</label>
                                 </div>
                                 <div class="col-6">
-                                    <input type="text" class="form-control text-dark bg-light" name="location" required>
+                                    <input type="text" class="form-control text-dark bg-light" name="location" required >
                                 </div>
                             </div>
                             <div class="row pb-3">
@@ -196,8 +198,8 @@
                                     <select class="form-control text-dark bg-light" name="gender" id="dropId3" required>
                                         <option value="" selected hidden>Select</option>
                                         <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Transgender">Transgender</option>
+                                        <option value="Female" >Female</option>
+                                        <option value="Transgender" >Transgender</option>
                                     </select>
                                 </div>
                             </div>
@@ -206,7 +208,7 @@
                                     <label for="">Date of Birth</label>
                                 </div>
                                 <div class="col-6">
-                                    <input type="date" class="form-control text-dark bg-light"  id="dob" name="dob" onchange="calculateAge()" required>
+                                    <input type="date" class="form-control text-dark bg-light"  id="dob" name="dob" onchange="calculateAge()" required >
                                 </div>
                             </div>
                             <div class="row pb-3">
@@ -214,7 +216,7 @@
                                     <label for="">Age</label>
                                 </div>
                                 <div class="col-6">
-                                    <input type="" class="form-control text-dark bg-light"  id="age" name="age" readonly>
+                                    <input type=""  class="form-control text-dark bg-light"  id="age" name="age" readonly>
                                 </div>
                             </div>
                             <div class="row pb-3">
@@ -223,16 +225,15 @@
                                 </div>
                                 <div class="col-6">
                                     <select class="form-control text-dark bg-light" id="blood" name="blood" required>
-                                     {% for i in blood %}
-                                     <option value="{{i.Blood_group}}">{{i.Blood_group}}</option>
-                                     {% endfor %}
+                                        <option value="A+">A+</option>
+                                        <option value="B+">B+</option>
+                                        {% for i in blood %}
+                                        <option value="{{i.Blood_group}}" >{{i.Blood_group}}</option>
+                                        {% endfor %}
                                     </select>
-                                    <!-------------------------------------------------------------------------------------------------------------------------->
-                                    <a class="btn-outline-warning" href="" data-toggle="modal" data-target="#commentModal" data-toggle="tooltip" title="comment">
-                                       Add Blood group
-                                      </a>
-                                     
-                                      <!---------------------------------------------------------------------------------------->
+                                    <!-- <a class="btn-outline-warning" href="" data-toggle="modal" data-target="#commentModal" data-toggle="tooltip" title="comment">
+                                        Add Blood group
+                                       </a> -->
                                 </div>
                                 
                             </div>
@@ -254,30 +255,10 @@
                             </div>
                             <div class="row pb-3">
                                 <div class="col-6">
-                                    <label for="">Permanent Address</label>
-                                </div>
-                                <div class="col-6">
-                                    <textarea class="form-control text-dark bg-light mb-2 pt-0" name="paddress" id="padrs1" onkeyup="clearaddreass(this.id)" required></textarea>
-                                    <textarea class="form-control text-dark bg-light pt-0" name="paddress2" id="padrs2" onkeyup="clearaddreass(this.id)"></textarea>
-                                </div>
-                            </div>
-                            <div class="row pb-4">
-                                <div class="col-6">
-                                    <label for="">Temporary Address</label>
-                                </div>
-                                <div class="col-6">
-                                    <input class="mx-2" type="checkbox" id="filladdress" name="filladdress">
-                                    <label style="font-size: .8rem;">Same as permanent address</label>
-                                    <textarea class="form-control text-dark bg-light mb-2 pt-0" name="address" id="adrs1" onkeyup="clearaddreass(this.id)"></textarea>
-                                    <textarea class="form-control text-dark bg-light pt-0" name="address2" id="adrs2" onkeyup="clearaddreass(this.id)"></textarea>
-                                </div>
-                            </div>
-                            <div class="row pb-3">
-                                <div class="col-6">
                                     <label for="">Contact Number</label>
                                 </div>
                                 <div class="col-6">
-                                    <input type="number" class="form-control text-dark bg-light" name="phone" id="phone" required
+                                    <input type="number" class="form-control text-dark bg-light" name="phone" id="phone" required 
                                         onkeyup="phoneValidate(document.getElementById('phone'),document.getElementById('pherror'))">
                                     <div id="pherror" class="text-danger"></div>
                                 </div>
@@ -297,9 +278,33 @@
                                     <label for="">Email</label>
                                 </div>
                                 <div class="col-6">
-                                    <input type="email" class="form-control text-dark bg-light" name="email" id="email"
+                                    <input type="email"  class="form-control text-dark bg-light" name="email" id="email"
                                         required onkeyup="emailvalidate()">
                                     <div id="error" class="text-danger"></div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-lg-5 col-sm-5">
+
+                            <div class="row pb-3">
+                                <div class="col-6">
+                                    <label for="">Permanent Address</label>
+                                </div>
+                                <div class="col-6">
+                                    <textarea class="form-control text-dark bg-light mb-2 pt-0" name="paddress" id="padrs1" onkeyup="clearaddreass(this.id)" required value=""></textarea>
+                                    <textarea class="form-control text-dark bg-light pt-0" name="paddress2" id="padrs2" onkeyup="clearaddreass(this.id)"></textarea>
+                                </div>
+                            </div>
+                            <div class="row pb-4">
+                                <div class="col-6">
+                                    <label for="">Temporary Address</label>
+                                </div>
+                                <div class="col-6">
+                                    <input class="mx-2" type="checkbox" id="filladdress" name="filladdress">
+                                    <label style="font-size: .8rem;">Same as permanent address</label>
+                                    <textarea class="form-control text-dark bg-light mb-2 pt-0" name="address" id="adrs1" onkeyup="clearaddreass(this.id)"></textarea>
+                                    <textarea class="form-control text-dark bg-light pt-0" name="address2" id="adrs2" onkeyup="clearaddreass(this.id)"></textarea>
                                 </div>
                             </div>
                             <div class="row pb-3">
@@ -310,10 +315,6 @@
                                     <input class="form-control" id="file-upload" type="file" name="attach" style="background: transparent;">
                                 </div>
                             </div>
-                        </div>
-        
-                        <div class="col-6 col-lg-6 col-md-6 col-sm-12 pt-3 mt-2">
-                            <br>
                             <div class="row pb-4">
                                 <div class="col-6">
                                     <label for="">Provide Bank Details</label>
@@ -326,14 +327,32 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="row pb-3">
+                                <div class="col-6">
+                                    <label for="">TDS Applicable</label>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-control text-dark bg-light" name="tds" id="tds" onchange="tdsFunction()"
+                                        required>
+                                        <option value="" selected hidden>Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
                             <div class="bank" id="bank" style="display: none;">
                                 <h4 class="text-center py-2 text-light">Bank information</h4>
+                                <hr class="text-warning font-weight-bold">
                                 <div class="row pb-3">
                                     <div class="col-6">
                                         <label for="">Account Number</label>
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" class="form-control text-dark bg-light" name="acc_no" id="acc_no" pattern="[0-9]{15}" value="0">
+                                        <input type="number" value="0" class="form-control text-dark bg-light" name="acc_no" id="acc_no" pattern="[0-9]{15}">
                                     </div>
                                 </div>
                                 <div class="row pb-3">
@@ -341,7 +360,7 @@
                                         <label for="">IFSC</label>
                                     </div>
                                     <div class="col-6">
-                                        <input type="text" class="form-control text-dark bg-light" name="ifsc" id="ifsc">
+                                        <input type="text" value="{" class="form-control text-dark bg-light" name="ifsc" id="ifsc">
                                     </div>
                                 </div>
                                 <div class="row pb-3">
@@ -349,7 +368,7 @@
                                         <label for="">Name of Bank</label>
                                     </div>
                                     <div class="col-6">
-                                        <input type="text" class="form-control text-dark bg-light" name="b_name" id="b_name">
+                                        <input type="text" value="" class="form-control text-dark bg-light" name="b_name" id="b_name">
                                     </div>
                                 </div>
                                 <div class="row pb-3">
@@ -357,10 +376,9 @@
                                         <label for="">Branch Name</label>
                                     </div>
                                     <div class="col-6">
-                                        <input type="text" class="form-control text-dark bg-light" name="branch" id="branch">
+                                        <input type="text" value="" class="form-control text-dark bg-light" name="branch" id="branch">
                                     </div>
                                 </div>
-                                <h5 class="text-center py-1 text-light">For Banking</h5>
                                 <div class="row pb-3">
                                     <div class="col-6">
                                         <label for="">Transaction Type</label>
@@ -375,85 +393,87 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row pb-3">
-                                <div class="col-6">
-                                    <label for="">TDS Applicable</label>
-                                </div>
-                                <div class="col-6">
-                                    <select class="form-control text-dark bg-light" name="tds" id="tds" onchange="tdsFunction()"
-                                        required>
-                                        <option value="" selected hidden>Select</option>
-                                        <option value="1">Yes</option>
-                                        <option value="0">No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="tds-div" style="display: none;">
-                                <div class="row pb-3">
-                                    <div class="col-6">
-                                        <label for="">Percentage/Amount</label>
-                                    </div>
-                                    <div class="col-6">
-                                        <select class="form-control text-dark bg-light" name="pora" id="pora" onchange="tdsFunction2()">
-                                            <option value="" selected hidden>Select</option>
-                                            <option value="Percentage">Percentage</option>
-                                            <option value="Amount">Amount</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="p" style="display: none;">
+                                
+                                <div id="tds-div" style="display: none;">
+                                    <h5 class="text-center py-1 text-light">For Banking</h5>
+                                    <hr class="text-warning font-weight-bold">
+                                    
                                     <div class="row pb-3">
                                         <div class="col-6">
-                                            <label for="">Percentage</label>
+                                            <label for="">Percentage/Amount</label>
                                         </div>
                                         <div class="col-6">
-                                            <input type="number" class="form-control text-dark bg-light" name="pcnt" id="pcnt" value="0">
+                                            <select class="form-control text-dark bg-light" name="pora" id="pora" onchange="tdsFunction2()">
+                                                <option value="" selected hidden>Select</option>
+                                                <option value="Percentage">Percentage</option>
+                                                <option value="Amount">Amount</option>
+                                            </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div id="a" style="display: none;">
-                                    <div class="row pb-3">
-                                        <div class="col-6">
-                                            <label for="">Amount</label>
+                                    <div id="p" style="display: none;">
+                                        <div class="row pb-3">
+                                            <div class="col-6">
+                                                <label for="">Percentage</label>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="number" class="form-control text-dark bg-light" name="pcnt" id="pcnt" value="0">
+                                            </div>
                                         </div>
-                                        <div class="col-6">
-                                            <input type="number" class="form-control text-dark bg-light" name="amnt" id="amnt" value="0">
+                                    </div>
+                                    <div id="a" style="display: none;">
+                                        <div class="row pb-3">
+                                            <div class="col-6">
+                                                <label for="">Amount</label>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="number" class="form-control text-dark bg-light" name="amnt" id="amnt" value="0">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                        </div>
+
+                        <div class="row">
                             <h4 class="text-center py-2 text-light">Statutary information</h4>
+                            <hr class="text-warning font-weight-bold">
+                            <div class="col-6 col-sm-6 col-lg-6">
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Income Tax Number</label>
                                 </div>
-                                <div class="col-6"><input type="number" class="form-control text-dark bg-light" name="itn" value="0"></div>
+                                <div class="col-6"><input type="number" value="0" class="form-control text-dark bg-light" name="itn" ></div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col-6">
-                                    <label for="">Aadhar Number</label>
+                                    <label for="">Aadhar Number(*)</label>
                                 </div>
-                                <div class="col-6"><input type="text" class="form-control text-dark bg-light" name="an" id="an" value="0" required></div>
+                                <div class="col-6"><input type="text" value="{{p.Aadhar}}" class="form-control text-dark bg-light" name="an" id="an" required pattern="{14}"></div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Universal Account Number(UAN)</label>
                                 </div>
-                                <div class="col-6"><input type="number" class="form-control text-dark bg-light" name="uan" value="0"></div>
+                                <div class="col-6"><input type="number" value="0" class="form-control text-dark bg-light" name="uan" ></div>
                             </div>
+                            </div>
+                            <div class="col-6 col-sm-6 col-lg-6">
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">PF Account Number (PFN)</label>
                                 </div>
-                                <div class="col-6"><input type="number" class="form-control text-dark bg-light" name="pfn" value="0"></div>
+                                <div class="col-6"><input type="number" value="0" class="form-control text-dark bg-light" name="pfn" ></div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">PR Account Number (PRAN)</label>
                                 </div>
-                                <div class="col-6"><input type="text" class="form-control text-dark bg-light" name="pran" value="0"></div>
+                                <div class="col-6"><input type="text" value="0" class="form-control text-dark bg-light" name="pran" ></div>
                             </div>
                         </div>
+                        </div>
+        
                     </div>
                     <hr>
                     <div class="action-button">
@@ -638,7 +658,7 @@ document.getElementById("joindate").value = formattedDate;
                 var e = document.getElementById("dropId").value;
                 if (e == 0) {
                     document.getElementById("bank").style.display = 'none'
-                    document.getElementById("acc_no").value = ''
+                    document.getElementById("acc_no").value = 0
                     document.getElementById("ifsc").value = ''
                     document.getElementById("b_name").value = ''
                     document.getElementById("branch").value = ''
@@ -681,9 +701,9 @@ document.getElementById("joindate").value = formattedDate;
                 }
                 else {
                     document.getElementById("tds-div").style.display = 'none'
-                    document.getElementById("pora").value = ''
-                    document.getElementById("pcnt").value = ''
-                    document.getElementById("amnt").value = ''
+                    document.getElementById("pora").value = 0
+                    document.getElementById("pcnt").value = 0
+                    document.getElementById("amnt").value = 0
                 }
             }
         
@@ -693,12 +713,12 @@ document.getElementById("joindate").value = formattedDate;
                 if (sal == 'Percentage') {
                     document.getElementById("p").style.display = 'block';
                     document.getElementById("a").style.display = 'none';
-                    document.getElementById("amnt").value = ''
+                    document.getElementById("amnt").value = 0
                 }
                 else if (sal == 'Amount') {
                     document.getElementById("a").style.display = 'block';
                     document.getElementById("p").style.display = 'none'
-                    document.getElementById("pcnt").value = ''
+                    document.getElementById("pcnt").value = 0
                 }
             }
         

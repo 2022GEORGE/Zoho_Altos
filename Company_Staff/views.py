@@ -907,7 +907,7 @@ def do_payroll_edit(request,pk):
             payroll.bank_name=bname
             payroll.branch=branch
             payroll.transaction_type=ttype
-            payroll.company=dash_details
+            payroll.company=dash_details.company
             payroll.login_details=log_details
             payroll.save()
             history=employee_history(company=dash_details.company,login_details=log_details, employee=payroll,Action='EDITED')

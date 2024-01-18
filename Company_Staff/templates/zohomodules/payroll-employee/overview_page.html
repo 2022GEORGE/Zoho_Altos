@@ -40,38 +40,43 @@
                       <div class="col-sm-5">
                         <a class="text-white" style="font-size: 1.5rem;">Employees</a>
                       </div>
-                      <div class="col-md-7">              
-                        <a class="btn btn btn-outline-warning " href="{% url 'payroll_employee_create' %}"><i class="fa fa-plus "></i>New</a>
-                      </div>
-                      <div class="col-md-9">
-                        <input type="text" id="search" class="form-control bg-light text-dark mt-2 " placeholder="Search.." autocomplete="off">
-                      </div>
-                      </div>
                       <div class="row">
-                      <div class="col-md-2">
-                      <div class="dropdown">
-                      <a class="btn text-center px-4 pt-1 mt-1 btn-outline-warning" id="sortbutton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button" style="width: 4rem;height: 2rem;">
-                        <i  class="fas fa-sort m-1"></i>
-                      </a>
-                      <div class="dropdown-menu m-1">
-                        <a class="dropdown-item" href="">All</a>
-                        <a class="dropdown-item" onclick="sortTable()">Employee Name</a>
-                        <a class="dropdown-item" onclick="sortTablebal()">Employee Salary</a>
-                      </div>
-                      </div>
-                    </div>
-                    <div class="col-md-4">      
-                      <div class="dropdown">
-                        <a class="btn text-center pt-1 mt-1 btn-outline-warning" id="filterbutton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button" style="width: 4rem;height: 2rem; margin-left: 2vh;">
-                          <i  class="fas fa-filter m-1"></i>
+                      <div class="col-lg-3 col-sm-3 ">
+                        <div class="dropdown">
+                        <a class="btn text-center px-4 pt-1 mt-1 btn-outline-warning" id="sortbutton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button" >
+                          <i  class="fas fa-sort "></i>
                         </a>
                         <div class="dropdown-menu m-1">
-                          <a class="dropdown-item" onclick="applyFilter('All')">All</a>
-                          <a class="dropdown-item" onclick="applyFilter('Active')">Active</a>
-                          <a class="dropdown-item" onclick="applyFilter('Inactive')">Inactive</a>
+                          <a class="dropdown-item" href="">All</a>
+                          <a class="dropdown-item" onclick="sortTable()">Employee Name</a>
+                          <a class="dropdown-item" onclick="sortTablebal()">Employee Salary</a>
                         </div>
-                      </div>      
-                    </div>  
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6 col-sm-6">      
+                        <div class="dropdown">
+                          <a class="btn text-center pt-1 mt-1 btn-outline-warning" id="filterbutton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button" >
+                            <i  class="fas fa-filter m-1"></i>
+                          </a>
+                          <div class="dropdown-menu m-1">
+                            <a class="dropdown-item" onclick="applyFilter('All')">All</a>
+                            <a class="dropdown-item" onclick="applyFilter('Active')">Active</a>
+                            <a class="dropdown-item" onclick="applyFilter('Inactive')">Inactive</a>
+                          </div>
+                        </div>      
+                      </div>  
+                      <div class="col" >              
+                        <a class="btn btn btn-outline-warning " style="text-align: right;" href="{% url 'payroll_employee_create' %}"><i class="fa fa-plus "></i></a>
+                      </div>
+
+                    </div>
+
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                          <input type="text" id="search" class="form-control bg-light text-dark mt-2 " placeholder="Search.." autocomplete="off">
+                        </div>
+                      
                     </div>
                     <div class="row">
                       <div class="table-responsive scrollable-table" >
@@ -104,9 +109,9 @@
                       </div>
                       <div class="row">
                         <div class="col-md-3" >
-                          <a class="btn" style="background-color:  #f8ac49; "><i class="fas fa-eye"></i> Overview</a>
+                          <a class="btn bg-warning text-light" ><i class="fas fa-eye"></i> Overview</a>
                         </div>
-                        <div class="col-md-9" style="text-align: right; ">
+                        <div class="col-md-9 col-lg-9 col-sm-9" style="text-align: right; ">
                           <a href="{% url 'payroll_employee_edit' p.id %}"  class=" text-dark" >
                             <button class="btn btn-outline-warning"  title="Edit"><i class="fas fa-edit"></i></button>
                           </a>
@@ -134,7 +139,7 @@
                           </a>
                           <input id="file-input" type="file" name="file" style="display:none;" onchange="uploadFile()">
                           <a class="btn btn-outline-warning" href="{% url 'employee_status' p.id %}" id="sts">{{p.status}}</a>
-                          <a class="btn btn-outline-warning" href="" data-toggle="modal" data-target="#commentModal2" data-toggle="tooltip" title="comment">
+                          <a class="btn btn-outline-warning" href="" data-toggle="modal" data-target="#commentModal2" data-toggle="tooltip" title="history">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                           </a>
                         </div>
@@ -170,12 +175,12 @@
                               <div class="col-6" style="text-align: center; ">
                                 <a href=" " >
                                   {% if p.image != '' %}
-                                  <img class="img-fluid" src="{{p.image.url}}" alt="profile pic" width="119px" name="img">
+                                  <img class="img-fluid rounded-circle" style="border: 2px rgb(199, 119, 0) solid;" src="{{p.image.url}}" alt="profile pic"  name="img" >
                                   {% else %}
-                                  <img class="img-fluid" alt="profile pic" width="119px" name="img">
+                                  <img class="img-fluid" alt="profile pic" name="img">
                                   {% endif %}
                                   <br><br>
-                                  <p >{{p.title}} &nbsp;{{p.first_name}} &nbsp;{{p.last_name}}
+                                  <p class="text-dark fs-5 b" >{{p.title}} &nbsp;{{p.first_name}} &nbsp;{{p.last_name}}
                                   </p>
                                 </a>
                               </div>
@@ -263,8 +268,8 @@
                             {% endif %}
                           </div>
                           <div class="p-info col-6 ">
-                            <div class="card" style="background-color:#f8ac49; ; padding-left: 1rem; padding-top: 1rem;">
-                              <div class="h3 mt-4 " style="margin-right: 2vh;">
+                            <div class="card " style="background-color:#383838 ; color:white; padding-left: 1rem; padding-top: 1rem;">
+                              <div class="h3 mt-4 " style="margin-right: 2vh; color:white">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salary Info
                                 <hr>
                               </div>
@@ -332,6 +337,38 @@
                                   </div>
                                 </div>
                               {% endif %}
+                              <div class="h3 mt-4 text-light " style="margin-right: 2vh;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bank Details
+                                <hr>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-1"></div>
+                                <div class="col-5"><p for="">ACC Number :</p></div>
+                                <div class="col-6">
+                                  <p class="bold">{{p.acc_no}}</p>
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-1"></div>
+                                <div class="col-5"><p for="">IFSC:</p></div>
+                                <div class="col-6">
+                                  <p class="bold">{{p.IFSC}}</p>
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-1"></div>
+                                <div class="col-5"><p for="">BANK :</p></div>
+                                <div class="col-6">
+                                  <p class="bold">{{p.bank_name}}</p>
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-1"></div>
+                                <div class="col-5"><p for="">Branch :</p></div>
+                                <div class="col-6">
+                                  <p class="bold">{{p.branch}}</p>
+                                </div>
+                              </div>
               
                               <div class="h3 mt-4 text-light " style="margin-right: 2vh;">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statutary Info
@@ -449,6 +486,7 @@
                                     <tr>
                                       <th style="text-align: center; font-size: large;">sl no.</th>
                                       <th style="text-align: center; font-size: large;">Comments</th>
+                                      <th style="text-align: center; font-size: large;">By</th>
                                       <th style="text-align: center; font-size: large;">Delete</th>
                                     </tr>
                                   </thead>
@@ -457,6 +495,7 @@
                                       <tr class="table-row">
                                         <td style="text-align: center;">{{forloop.counter }}</td>
                                         <td style="text-align: center;">{{c.comment}}</td>
+                                        <td style="text-align: center;">{{c.login_details.first_name}} {{c.login_details.last_name}}</td>
                                         <td style="text-align: center;">
                                           <a class="text-danger" href="{% url 'delete_comment' c.id p.id%}"><i class="fa fa-trash" style="font-size:20px;"></i></a>
                                         </td>
@@ -486,7 +525,7 @@
                           </div>
                           <div class="modal-body">
                           <div class="container " >
-                            <table class="table text-light table-borderless " style="margin:3px; background-color: #000000;">
+                            <table class="table text-light  " style="margin:3px; background-color: #000000;">
                               <thead>
                                 <tr>
                                   <th>
@@ -505,11 +544,11 @@
                               </thead>
                               <tbody>
                                 {% for i in history %}
-                                <tr>
+                                <tr class="table-row">
                                   <td>{{forloop.counter}}</td>
                                   <td>{{i.Date}}</td>
                                   <td>{{i.Action}}</td>
-                                  <td>{{i.login_details.user_type}}</td>
+                                  <td>{{i.login_details.first_name}} {{i.login_details.Last_name}}</td>
                                 </tr>
                                 {% endfor %}
                               </tbody>
