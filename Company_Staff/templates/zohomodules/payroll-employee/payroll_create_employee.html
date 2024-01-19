@@ -33,7 +33,7 @@
                 <form method="POST" action="{% url 'create_employee' %}" enctype="multipart/form-data" id="myForm" >
                     {% csrf_token %}
                     <div class="row">
-                        <div class="data col-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="data  col-lg-6 col-md-6 col-sm-16">
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Title</label>
@@ -144,15 +144,15 @@
                             </div>
                         </div>
         
-                        <div class="image col-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="image col-6 col-lg-6 col-md-6 col-sm-5">
                             <div class="row">
-                                <div class="col-5 col-lg-5 col-md-10 col-sm-12 text-center">
+                                <div class="col-5 col-lg-5 col-md-10 col-sm-5 text-center">
                                     <label for="">Upload Image</label>
                                 </div>
-                                <div class="col-6 col-lg-7 col-md-10 col-sm-12">
+                                <div class="col-6 col-lg-7 col-md-10 col-sm-5">
                                     <br><br><br><br>
                                     <label for="image-input">
-                                        <img class="img-fluid" src="{% static 'images/payrollimg.png' %}" alt="" width="190px" height="200px" id="img"
+                                        <img class="img-fluid" src="{% static 'images/payrollimg.png' %}" alt="profile image" id="img"
                                             style="background-color: rgba(156, 156, 156, 0.267); border-radius: 30px;">
                                     </label>
                                     <input id="image-input" type="file" name="file" class="form-control" accept="image/*" onchange="loadFile(event)" style="display: none;">
@@ -352,7 +352,7 @@
                                         <label for="">Account Number</label>
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" value="0" class="form-control text-dark bg-light" name="acc_no" id="acc_no" pattern="[0-9]{15}">
+                                        <input type="text"  class="form-control text-dark bg-light" name="acc_no" id="acc_no" pattern="[0-9]{14}">
                                     </div>
                                 </div>
                                 <div class="row pb-3">
@@ -360,7 +360,7 @@
                                         <label for="">IFSC</label>
                                     </div>
                                     <div class="col-6">
-                                        <input type="text" value="{" class="form-control text-dark bg-light" name="ifsc" id="ifsc">
+                                        <input type="text" value="" class="form-control text-dark bg-light" name="ifsc" id="ifsc">
                                     </div>
                                 </div>
                                 <div class="row pb-3">
@@ -416,7 +416,7 @@
                                                 <label for="">Percentage</label>
                                             </div>
                                             <div class="col-6">
-                                                <input type="number" class="form-control text-dark bg-light" name="pcnt" id="pcnt" value="0">
+                                                <input type="number" class="form-control text-dark bg-light" name="pcnt" id="pcnt">
                                             </div>
                                         </div>
                                     </div>
@@ -426,7 +426,7 @@
                                                 <label for="">Amount</label>
                                             </div>
                                             <div class="col-6">
-                                                <input type="number" class="form-control text-dark bg-light" name="amnt" id="amnt" value="0">
+                                                <input type="number" class="form-control text-dark bg-light" name="amnt" id="amnt" >
                                             </div>
                                         </div>
                                     </div>
@@ -449,7 +449,7 @@
                                 <div class="col-6">
                                     <label for="">Aadhar Number(*)</label>
                                 </div>
-                                <div class="col-6"><input type="text" value="{{p.Aadhar}}" class="form-control text-dark bg-light" name="an" id="an" required pattern="{14}"></div>
+                                <div class="col-6"><input type="text" value="{{p.Aadhar}}" class="form-control text-dark bg-light" name="an" id="an" required pattern="[0-9]{14}"></div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col-6">
@@ -658,7 +658,7 @@ document.getElementById("joindate").value = formattedDate;
                 var e = document.getElementById("dropId").value;
                 if (e == 0) {
                     document.getElementById("bank").style.display = 'none'
-                    document.getElementById("acc_no").value = 0
+                    document.getElementById("acc_no").value = ''
                     document.getElementById("ifsc").value = ''
                     document.getElementById("b_name").value = ''
                     document.getElementById("branch").value = ''

@@ -35,7 +35,7 @@
                 <form method="POST" action="{% url 'do_payroll_edit' p.id %}" enctype="multipart/form-data" id="myForm" onsubmit="return validateform()">
                     {% csrf_token %}
                     <div class="row">
-                        <div class="data col-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="data  col-lg-6 col-md-6 col-sm-16">
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Title</label>
@@ -146,16 +146,16 @@
                             </div>
                         </div>
         
-                        <div class="image col-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="image col-6 col-lg-6 col-md-6 col-sm-6">
                             <div class="row">
-                                <div class="col-5 col-lg-5 col-md-10 col-sm-12 text-center">
+                                <div class="col-5 col-lg-5 col-md-10 col-sm-6 text-center">
                                     <label for="">Upload Image</label>
                                 </div>
                                 {% if p.image %}
-                                <div class="col-6 col-lg-7 col-md-10 col-sm-12">
+                                <div class="col-6 col-lg-7 col-md-10 col-sm-7">
                                     <br><br><br><br>
                                     <label for="image-input">
-                                        <img class="img-fluid" src="{{p.image.url}}" alt="profile pic" width="190px" height="200px" id="img"
+                                        <img class="img-fluid w-30 h-50" src="{{p.image.url}}" alt="profile pic"  id="img"
                                             style="background-color: rgba(156, 156, 156, 0.267); border-radius: 30px;">
                                     </label>
                                     <input id="image-input" type="file" name="file" class="form-control" accept="image/*" onchange="loadFile(event)" style="display: none;">
@@ -336,7 +336,7 @@
                                         onchange="bankdisplay()" required>
                                         <option value="" selected hidden>Select</option>
                                         <option value="1"{% if p.acc_no != '' %}selected{% endif %}>Yes</option>
-                                        <option value="0">No</option>
+                                        <option value="0" {% if p.acc_no == '' %}selected{% endif %}>No</option>
                                     </select>
                                 </div>
                             </div>
@@ -348,9 +348,8 @@
                                 <div class="col-6">
                                     <select class="form-control text-dark bg-light" name="tds" id="tds" onchange="tdsFunction()"
                                         required>
-                                        <option value="" selected hidden>Select</option>
-                                        <option value="1"{% if p.TDS_percentage != 0 %}selected{% endif %}>Yes</option>
-                                        <option value="0"{% if p.TDS_percentage == 0 %}selected{% endif %}>No</option>
+                                        <option value="1"{% if p.isTDS == 'Yes'  %}selected{% endif %}>Yes</option>
+                                        <option value="0" {% if p.isTDS == 'No'  %}selected{% endif %}>No</option>
                                     </select>
                                 </div>
                             </div>
@@ -365,7 +364,7 @@
                                         <label for="">Account Number</label>
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" value="{{p.acc_no}}" class="form-control text-dark bg-light" name="acc_no" id="acc_no" pattern="[0-9]{15}">
+                                        <input type="text" value="{{p.acc_no}}" class="form-control text-dark bg-light" name="acc_no" id="acc_no" pattern="[0-9]{14}">
                                     </div>
                                 </div>
                                 <div class="row pb-3">
@@ -462,7 +461,7 @@
                                 <div class="col-6">
                                     <label for="">Aadhar Number(*)</label>
                                 </div>
-                                <div class="col-6"><input type="text" value="{{p.Aadhar}}" class="form-control text-dark bg-light" name="an" id="an" required pattern="{14}"></div>
+                                <div class="col-6"><input type="text" value="{{p.Aadhar}}" class="form-control text-dark bg-light" name="an" id="an" required ></div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col-6">
@@ -636,11 +635,6 @@ function validateform() {
                 var e = document.getElementById("dropId").value;
                 if (e == 0) {
                     document.getElementById("bank").style.display = 'none'
-                    document.getElementById("acc_no").value = 0
-                    document.getElementById("ifsc").value = ''
-                    document.getElementById("b_name").value = ''
-                    document.getElementById("branch").value = ''
-                    document.getElementById("ttype").value = ''
                 }
                 else {
                     document.getElementById("bank").style.display = 'block'
@@ -652,7 +646,7 @@ function validateform() {
         var e = document.getElementById("dropId").value;
         if (e == 0) {
             document.getElementById("bank").style.display = 'none'
-            document.getElementById("acc_no").value = 0
+            document.getElementById("acc_no").value = ''
             document.getElementById("ifsc").value =''
             document.getElementById("b_name").value = ''
             document.getElementById("branch").value = ''
@@ -817,6 +811,15 @@ function validateform() {
                     input.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
                 });
             });
+             
+            $(document).ready(function(){
+                $('#an').ready(function(){
+                    const input = this.value;
+                if (input.length > 14) {
+                    this.value = input.slice(0, 14);
+                }
+                })
+            })
         
             document.getElementById("an").addEventListener("input", function () {
                 const input = this.value;
@@ -898,5 +901,16 @@ function validateform() {
       }
     }
   </script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script>
+      {% for msg in messages %}
+      swal({
+      title: "{{msg}}",
+      text: "{{msg.tags}}",
+      icon: "{{msg.tags}}",
+    });
+      {% endfor %}
+     </script>
+  
 
 {% endblock %}

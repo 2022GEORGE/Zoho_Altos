@@ -42,7 +42,7 @@ class payroll_employee(models.Model):
     uploaded_file=models.FileField(upload_to="images/",null=True)
     company=models.ForeignKey(CompanyDetails,on_delete=models.CASCADE,null=True)
     login_details=models.ForeignKey(LoginDetails,on_delete=models.CASCADE,null=True)
-    acc_no = models.BigIntegerField(null=True)  
+    acc_no = models.CharField(null=True,max_length=255)  
     IFSC = models.CharField(max_length=100,null=True)
     bank_name = models.CharField(max_length=100,null=True)
     branch = models.CharField(max_length=100,null=True)

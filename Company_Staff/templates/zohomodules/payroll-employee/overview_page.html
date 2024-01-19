@@ -32,16 +32,16 @@
           </ol>
       </nav>
       <div class="row mt-5">
-          <div class="col-md-12">
+          <div class="col-sm-12 col-lg-12 flex-column">
               <div class="card mb-3 bg-black shadow p-3 mb-5 rounded" style="max-width: 1200px;">
                 <div class="row mt-4">
-                  <div class="col-4">
+                  <div class="col-sm flex-column">
                     <div class="row">
-                      <div class="col-sm-5">
+                      <div class="col-sm">
                         <a class="text-white" style="font-size: 1.5rem;">Employees</a>
                       </div>
-                      <div class="row">
-                      <div class="col-lg-3 col-sm-3 ">
+                      <span class="row">
+                      <span class="col-lg-3 col-sm flex-column">
                         <div class="dropdown">
                         <a class="btn text-center px-4 pt-1 mt-1 btn-outline-warning" id="sortbutton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button" >
                           <i  class="fas fa-sort "></i>
@@ -52,8 +52,8 @@
                           <a class="dropdown-item" onclick="sortTablebal()">Employee Salary</a>
                         </div>
                         </div>
-                      </div>
-                      <div class="col-md-6 col-lg-6 col-sm-6">      
+                      </span>
+                      <span class="col-md-6 col-lg-6 col-sm flex-column">      
                         <div class="dropdown">
                           <a class="btn text-center pt-1 mt-1 btn-outline-warning" id="filterbutton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button" >
                             <i  class="fas fa-filter m-1"></i>
@@ -64,16 +64,16 @@
                             <a class="dropdown-item" onclick="applyFilter('Inactive')">Inactive</a>
                           </div>
                         </div>      
-                      </div>  
-                      <div class="col" >              
+                      </span>  
+                      <span class="col-sm" >              
                         <a class="btn btn btn-outline-warning " style="text-align: right;" href="{% url 'payroll_employee_create' %}"><i class="fa fa-plus "></i></a>
-                      </div>
+                      </span>
 
-                    </div>
+                    </span>
 
                       </div>
                       <div class="row">
-                        <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="col-md-12 col-sm-12 col-lg-12 flex-column">
                           <input type="text" id="search" class="form-control bg-light text-dark mt-2 " placeholder="Search.." autocomplete="off">
                         </div>
                       
@@ -169,7 +169,7 @@
                               <hr>
                             </h2>
                           </div>
-                          <div class="gen-info col-6  " style="padding-left: 3rem;  ">
+                          <div class="gen-info col-sm " style="padding-left: 3rem;  ">
                             <div class="row mt-1">
                               <div class="col-2"></div>
                               <div class="col-6" style="text-align: center; ">
@@ -267,7 +267,7 @@
                               </div>
                             {% endif %}
                           </div>
-                          <div class="p-info col-6 ">
+                          <div class="p-info col-sm ">
                             <div class="card " style="background-color:#383838 ; color:white; padding-left: 1rem; padding-top: 1rem;">
                               <div class="h3 mt-4 " style="margin-right: 2vh; color:white">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salary Info
