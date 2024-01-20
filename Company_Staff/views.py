@@ -10,6 +10,10 @@ import os
 import pandas as pd
 from django.http import JsonResponse,HttpResponse,HttpResponseRedirect
 from openpyxl import load_workbook
+from django.core.mail import send_mail, EmailMessage
+from io import BytesIO
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 # Create your views here.
 
 
@@ -1195,5 +1199,32 @@ def add_file(request,pk):
             payroll.save()
         messages.info(request,'fil uploaded')
         return redirect('employee_overview',pk)
+def shareemail(request,pk):
+    try:
+            if request.method == 'POST':
+                emails_string = request.POST['email']
 
+    
+                emails_list = [email.strip() for email in emails_string.split(',')]
+                print(emails_list)
+                p=payroll_employee.objects.get(id=pk)
+                        
+                context = {'p':p}
+                template_path = 'zohomodules/payroll-employee/mailoverview.html'
+                template = get_template(template_path)
+                html  = template.render(context)
+                result = BytesIO()
+                pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+                pdf = result.getvalue()
+                filename = f'overview page - {p.id}.pdf'
+                subject = f"overview page  - {p.first_name}"
+                email = EmailMessage(subject, f"Hi,\nPlease find the attached INVOICE - File-{p.id}.\n--\nRegards,\n", from_email=settings.EMAIL_HOST_USER, to=emails_list)
+                email.attach(filename, pdf, "application/pdf")
+                email.send(fail_silently=False)
+                messages.success(request, 'over view page has been shared via email successfully..!')
+                return redirect('employee_overview',pk)
+    except Exception as e:
+            print(e)
+            messages.error(request, f'{e}')
+            return redirect('employee_overview',pk)
     

@@ -108,10 +108,10 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-md-3" >
+                        <div class="col-md-2" >
                           <a class="btn bg-warning text-light" ><i class="fas fa-eye"></i> Overview</a>
                         </div>
-                        <div class="col-md-9 col-lg-9 col-sm-9" style="text-align: right; ">
+                        <div class="col-md-10 col-lg-10 col-sm-12" style="text-align: right; ">
                           <a href="{% url 'payroll_employee_edit' p.id %}"  class=" text-dark" >
                             <button class="btn btn-outline-warning"  title="Edit"><i class="fas fa-edit"></i></button>
                           </a>
@@ -137,11 +137,17 @@
                           <a href="{% url 'delete_employee' p.id %}" class="  text-dark" >
                             <button class="btn btn-outline-warning"  title="Delete"><i class="fas fa-trash-alt"></i></button>
                           </a>
-                          <input id="file-input" type="file" name="file" style="display:none;" onchange="uploadFile()">
                           <a class="btn btn-outline-warning" href="{% url 'employee_status' p.id %}" id="sts">{{p.status}}</a>
                           <a class="btn btn-outline-warning" href="" data-toggle="modal" data-target="#commentModal2" data-toggle="tooltip" title="history">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                           </a>
+                            <a class="btn btn-outline-warning dropdown-toggle" href="#" role="button" title="share" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fa-solid fa-share-nodes"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <a class="dropdown-item" href="#" data-toggle="modal" title="upload" data-target="#commentModal4" data-toggle="tooltip" title="comment">Mail</a>
+                              <a class="dropdown-item" href="#">whatsapp</a>
+                            </div>
                         </div>
                         
                       </div><br>
@@ -415,52 +421,6 @@
                                 </div>
                               </div>
               
-                              {% for bank in b %}
-                                <div class="h3 mt-4 text-white" style="margin-right: 2vh;">
-                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bank Info
-                                  <hr>
-                                </div>
-                                                                                              
-                                <div class="row mt-2">
-                                    <div class="col-1"></div>
-                                    <div class="col-5"><p for="">Bank Name:</p></div>
-                                    <div class="col-6">
-                                      <p class="bold">{{bank.bank_name}}</p>
-                                    </div>
-                                </div>   
-                                                                                           
-                                <div class="row mt-2">
-                                  <div class="col-1"></div>
-                                  <div class="col-5"><p for="">Account No:</p></div>
-                                  <div class="col-6">
-                                    <p class="bold">{{bank.acc_no}}</p>
-                                  </div>
-                                </div>
-                                                                                              
-                                <div class="row mt-2">
-                                  <div class="col-1"></div>
-                                  <div class="col-5"><p for="">IFSC Code:</p></div>
-                                  <div class="col-6">
-                                    <p class="bold">{{bank.IFSC}}</p>
-                                  </div>
-                                </div>
-                                                                                              
-                                <div class="row mt-2">
-                                  <div class="col-1"></div>
-                                  <div class="col-5"><p for="">Bank Branch:</p></div>
-                                  <div class="col-6">
-                                    <p class="bold">{{bank.branch}}</p>
-                                  </div>
-                                </div>
-                                                                                              
-                                <div class="row mt-2">
-                                  <div class="col-1"></div>
-                                  <div class="col-5"><p for="">Transaction Type:</p></div>
-                                  <div class="col-6">
-                                    <p class="bold">{{bank.transaction_type}}</p>
-                                  </div>
-                                </div>
-                              {% endfor %}
                             </div><br>
                           </div>
                         </div>       
@@ -577,6 +537,29 @@
                           {% csrf_token %}
                           <div class="modal-body">
                             <input type="file" name="file" required class="form-control">
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-outline-warning">Save</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <!-------------------------------------------------------------------------------------------------------->
+                  <div class="modal fade" id="commentModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true" style="margin-top: 8vh;">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content" style="background-color: #3b3b3b;">
+                        <div class="modal-header">
+                          <h3 class="modal-title text-light" id="exampleModalLabel">Add mail id</h3>
+                          <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="font-size: x-large;">&times;</span>
+                          </button>
+                        </div>
+                        <form action="{% url 'shareemail' p.id %}" method="POST" enctype="multipart/form-data">
+                          {% csrf_token %}
+                          <div class="modal-body">
+                            <input type="email" name="email" required class="form-control">
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Close</button>

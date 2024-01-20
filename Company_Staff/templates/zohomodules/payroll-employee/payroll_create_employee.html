@@ -160,7 +160,8 @@
                             </div>
                         </div>
                     </div>
-        
+                    <br>
+                    <br>
                     <div class="gen-info row pt-5">
                        
                             <h4 class="text-center py-2 text-light">General information</h4>
@@ -343,8 +344,12 @@
                             </div>
                             
                         </div>
+                        <br>
+                        <br>
                         <div class="row">
                             <div class="bank" id="bank" style="display: none;">
+                                <br>
+                                <br>
                                 <h4 class="text-center py-2 text-light">Bank information</h4>
                                 <hr class="text-warning font-weight-bold">
                                 <div class="row pb-3">
@@ -395,6 +400,8 @@
                             </div>
                                 
                                 <div id="tds-div" style="display: none;">
+                                    <br>
+                                    <br>
                                     <h5 class="text-center py-1 text-light">For Banking</h5>
                                     <hr class="text-warning font-weight-bold">
                                     
@@ -434,7 +441,8 @@
                             </div>
 
                         </div>
-
+                        <br>
+                        <br>
                         <div class="row">
                             <h4 class="text-center py-2 text-light">Statutary information</h4>
                             <hr class="text-warning font-weight-bold">
@@ -443,13 +451,13 @@
                                 <div class="col-6">
                                     <label for="">Income Tax Number</label>
                                 </div>
-                                <div class="col-6"><input type="number" value="0" class="form-control text-dark bg-light" name="itn" ></div>
+                                <div class="col-6"><input type="text" class="form-control text-dark bg-light" name="itn" pattern="^[A-Z]{5}[0-9]{4}[A-Z]$"></div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">Aadhar Number(*)</label>
                                 </div>
-                                <div class="col-6"><input type="text" value="{{p.Aadhar}}" class="form-control text-dark bg-light" name="an" id="an" required pattern="[0-9]{14}"></div>
+                                <div class="col-6"><input type="text"class="form-control text-dark bg-light" name="an" id="an" requiredpattern="[0-9\s]{14}"></div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col-6">

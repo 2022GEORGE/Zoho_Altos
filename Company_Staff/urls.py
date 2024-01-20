@@ -50,6 +50,7 @@ urlpatterns = [
     path('Company/add_blood',views.add_blood,name='add_blood'),
     path('company/import_payroll_excel',views.import_payroll_excel,name='import_payroll_excel'),
     path('Company/add_file/<int:pk>',views.add_file,name='add_file'),
+    path('company/shareemail/<int:pk>',views.shareemail,name='shareemail'),
     
     
 ]
