@@ -341,22 +341,6 @@
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="row pb-3">
-                                <div class="col-6">
-                                    <label for="">TDS Applicable</label>
-                                </div>
-                                <div class="col-6">
-                                    <select class="form-control text-dark bg-light" name="tds" id="tds" onchange="tdsFunction()"
-                                        required>
-                                        <option value="1"{% if p.isTDS == 'Yes'  %}selected{% endif %}>Yes</option>
-                                        <option value="0" {% if p.isTDS == 'No'  %}selected{% endif %}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="row">
                             <div class="bank" id="bank" style="display: none;">
                                 <br>
                                 <br>
@@ -408,58 +392,72 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row pb-3">
+                                <div class="col-6">
+                                    <label for="">TDS Applicable</label>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-control text-dark bg-light" name="tds" id="tds" onchange="tdsFunction()"
+                                        required>
+                                        <option value="1"{% if p.isTDS == 'Yes'  %}selected{% endif %}>Yes</option>
+                                        <option value="0" {% if p.isTDS == 'No'  %}selected{% endif %}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="tds-div" style="display: none;">
+                                <br>
+                                <br>
+                                <h5 class="text-center py-1 text-light">For Banking</h5>
+                                <hr class="text-warning font-weight-bold">
                                 
-                                <div id="tds-div" style="display: none;">
-                                    <br>
-                                    <br>
-                                    <h5 class="text-center py-1 text-light">For Banking</h5>
-                                    <hr class="text-warning font-weight-bold">
-                                    
+                                <div class="row pb-3">
+                                    <div class="col-6">
+                                        <label for="">Percentage/Amount</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <select class="form-control text-dark bg-light" name="pora" id="pora" onchange="tdsFunction2()">
+                                            <option value="" selected hidden>Select</option>
+                                            <option value="Percentage"{% if p.isTDS == 'Percentage' %}selected{% endif %}>Percentage</option>
+                                            <option value="Amount"{% if p.isTDS == 'Amount' %}selected{% endif %}>Amount</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="p" style="display: none;">
                                     <div class="row pb-3">
                                         <div class="col-6">
-                                            <label for="">Percentage/Amount</label>
+                                            <label for="">Percentage</label>
                                         </div>
                                         <div class="col-6">
-                                            <select class="form-control text-dark bg-light" name="pora" id="pora" onchange="tdsFunction2()">
-                                                <option value="" selected hidden>Select</option>
-                                                <option value="Percentage"{% if p.isTDS == 'Percentage' %}selected{% endif %}>Percentage</option>
-                                                <option value="Amount"{% if p.isTDS == 'Amount' %}selected{% endif %}>Amount</option>
-                                            </select>
+                                            <input type="number" class="form-control text-dark bg-light" name="pcnt" id="pcnt" value="{{p.TDS_percentage}}">
                                         </div>
                                     </div>
-                                    <div id="p" style="display: none;">
-                                        <div class="row pb-3">
-                                            <div class="col-6">
-                                                <label for="">Percentage</label>
-                                            </div>
-                                            <div class="col-6">
-                                                <input type="number" class="form-control text-dark bg-light" name="pcnt" id="pcnt" value="{{p.TDS_percentage}}">
-                                            </div>
+                                </div>
+                                <div id="a" style="display: none;">
+                                    <div class="row pb-3">
+                                        <div class="col-6">
+                                            <label for="">Amount</label>
                                         </div>
-                                    </div>
-                                    <div id="a" style="display: none;">
-                                        <div class="row pb-3">
-                                            <div class="col-6">
-                                                <label for="">Amount</label>
-                                            </div>
-                                            <div class="col-6">
-                                                <input type="number" class="form-control text-dark bg-light" name="amnt" id="amnt" value="{{p.TDS_percentage}}">
-                                            </div>
+                                        <div class="col-6">
+                                            <input type="number" class="form-control text-dark bg-light" name="amnt" id="amnt" value="{{p.TDS_percentage}}">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
+
+                            
+                        </div>
+            
                         <br>
                         <br>
                         <div class="row">
                             <h4 class="text-center py-2 text-light">Statutary information</h4>
                             <hr class="text-warning font-weight-bold">
-                            <div class="col-6 col-sm-6 col-lg-6">
+                            <div class=" col-sm-9 col-lg-6">
                             <div class="row pb-3">
                                 <div class="col-6">
-                                    <label for="">Income Tax Number</label>
+                                    <label for="">Income Tax Number(pan)</label>
                                 </div>
                                 <div class="col-6"><input type="text" value="{{p.Income_tax_no}}" class="form-control text-dark bg-light" name="itn" pattern="^[A-Z]{5}[0-9]{4}[A-Z]$"></div>
                             </div>
@@ -476,7 +474,7 @@
                                 <div class="col-6"><input type="number" value="{{p.UAN}}" class="form-control text-dark bg-light" name="uan" ></div>
                             </div>
                             </div>
-                            <div class="col-6 col-sm-6 col-lg-6">
+                            <div class=" col-sm-9 col-lg-6">
                             <div class="row pb-3">
                                 <div class="col-6">
                                     <label for="">PF Account Number (PFN)</label>

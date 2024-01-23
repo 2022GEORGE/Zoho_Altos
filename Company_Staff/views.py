@@ -1218,7 +1218,7 @@ def shareemail(request,pk):
                 pdf = result.getvalue()
                 filename = f'overview page - {p.id}.pdf'
                 subject = f"overview page  - {p.first_name}"
-                email = EmailMessage(subject, f"Hi,\nPlease find the attached INVOICE - File-{p.id}.\n--\nRegards,\n", from_email=settings.EMAIL_HOST_USER, to=emails_list)
+                email = EmailMessage(subject, f"Hi,\nPlease find the attached employee details - File-{p.id}.\n--\nRegards,\n", from_email=settings.EMAIL_HOST_USER, to=emails_list)
                 email.attach(filename, pdf, "application/pdf")
                 email.send(fail_silently=False)
                 messages.success(request, 'over view page has been shared via email successfully..!')

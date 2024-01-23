@@ -146,7 +146,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                               <a class="dropdown-item" href="#" data-toggle="modal" title="upload" data-target="#commentModal4" data-toggle="tooltip" title="comment">Mail</a>
-                              <a class="dropdown-item" href="#">whatsapp</a>
+                              <a class="dropdown-item" href="#" onclick="shareViaWhatsApp()">whatsapp</a>
                             </div>
                         </div>
                         
@@ -181,7 +181,7 @@
                               <div class="col-6" style="text-align: center; ">
                                 <a href=" " >
                                   {% if p.image != '' %}
-                                  <img class="img-fluid rounded-circle" style="border: 2px rgb(199, 119, 0) solid;" src="{{p.image.url}}" alt="profile pic"  name="img" >
+                                  <img class="img-fluid" style="border: 2px rgb(199, 119, 0) solid;" src="{{p.image.url}}" alt="profile pic"  name="img" >
                                   {% else %}
                                   <img class="img-fluid" alt="profile pic" name="img">
                                   {% endif %}
@@ -218,7 +218,7 @@
                               </div>
                             </div>
                             <div class="h3 mt-4 text-black">Personal info
-                              <hr>
+                              <hr style="color: orange;">
                             </div>
                             <div class="row mt-2">
                               <div class="col-5"><p  for="">Gender :</p></div>
@@ -277,7 +277,7 @@
                             <div class="card " style="background-color:#383838 ; color:white; padding-left: 1rem; padding-top: 1rem;">
                               <div class="h3 mt-4 " style="margin-right: 2vh; color:white">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salary Info
-                                <hr>
+                                <hr style="color: orange;">
                               </div>
                                                         
                               <div class="row mt-2">
@@ -343,51 +343,57 @@
                                   </div>
                                 </div>
                               {% endif %}
+                              {% if p.acc_no %} 
                               <div class="h3 mt-4 text-light " style="margin-right: 2vh;">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bank Details
-                                <hr>
+                                <hr style="color: orange;">
                               </div>
-                              <div class="row mt-2">
+                              {% if p.acc_no %}   <div class="row mt-2">
                                 <div class="col-1"></div>
                                 <div class="col-5"><p for="">ACC Number :</p></div>
                                 <div class="col-6">
-                                  <p class="bold">{{p.acc_no}}</p>
+                                     <p class="bold">{{p.acc_no}}</p>
                                 </div>
                               </div>
-                              <div class="row mt-2">
+                              {% endif %}
+                              {% if p.IFSC %}<div class="row mt-2">
                                 <div class="col-1"></div>
                                 <div class="col-5"><p for="">IFSC:</p></div>
                                 <div class="col-6">
                                   <p class="bold">{{p.IFSC}}</p>
                                 </div>
-                              </div>
-                              <div class="row mt-2">
+                              </div>{% endif %}
+
+                              {% if p.bank_name %}<div class="row mt-2">
                                 <div class="col-1"></div>
                                 <div class="col-5"><p for="">BANK :</p></div>
                                 <div class="col-6">
-                                  <p class="bold">{{p.bank_name}}</p>
+                                   <p class="bold">{{p.bank_name}}</p>
                                 </div>
                               </div>
-                              <div class="row mt-2">
+                              {% endif %}
+                              {% if p.branch %} <div class="row mt-2">
                                 <div class="col-1"></div>
                                 <div class="col-5"><p for="">Branch :</p></div>
                                 <div class="col-6">
                                   <p class="bold">{{p.branch}}</p>
                                 </div>
                               </div>
+                              {% endif %}
+                              {% endif %}
               
                               <div class="h3 mt-4 text-light " style="margin-right: 2vh;">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statutary Info
-                                <hr>
+                                <hr style="color: orange;">
                               </div>
                                                         
-                              <div class="row mt-2">
+                              {% if p.Income_tax_no %}  <div class="row mt-2">
                                 <div class="col-1"></div>
                                 <div class="col-5"><p for="">Income Tax Number :</p></div>
                                 <div class="col-6">
-                                  <p class="bold">{{p.ITN}}</p>
+                                  <p class="bold">{{p.Income_tax_no}}</p>
                                 </div>
-                              </div>
+                              </div> {% endif %}
                                                     
                               <div class="row mt-2">
                                 <div class="col-1"></div>
@@ -395,32 +401,32 @@
                                 <div class="col-6">
                                   <p class="bold">{{p.Aadhar}}</p>
                                 </div>
-                              </div>
+                              </div> 
                                                     
-                              <div class="row mt-2">
+                              {% if p.UAN %} <div class="row mt-2">
                                 <div class="col-1"></div>
                                 <div class="col-5"><p for="">Universal Account No :</p></div>
                                 <div class="col-6">
                                   <p class="bold">{{p.UAN}}</p>
                                 </div>
-                              </div>
+                              </div> {% endif %}
                                                         
-                              <div class="row mt-2">
+                              {% if p.PRAN %} <div class="row mt-2">
                                 <div class="col-1"></div>
                                 <div class="col-5"><p for="">PR Account No :</p></div>
                                 <div class="col-6">
                                   <p class="bold">{{p.PRAN}}</p>
                                 </div>
                               </div>
-                                                                            
-                              <div class="row mt-2">
+                              {% endif %}          
+                              {% if p.PFN %}  <div class="row mt-2">
                                 <div class="col-1"></div>
                                 <div class="col-5"><p for="">PF Account No:</p></div>
                                 <div class="col-6">
                                   <p class="bold">{{p.PFN}}</p>
                                 </div>
                               </div>
-              
+                              {% endif %}
                             </div><br>
                           </div>
                         </div>       
@@ -551,7 +557,7 @@
                     <div class="modal-dialog" role="document">
                       <div class="modal-content" style="background-color: #3b3b3b;">
                         <div class="modal-header">
-                          <h3 class="modal-title text-light" id="exampleModalLabel">Add mail id</h3>
+                          <h3 class="modal-title text-light" id="exampleModalLabel">Share details</h3>
                           <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true" style="font-size: x-large;">&times;</span>
                           </button>
@@ -563,7 +569,7 @@
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-outline-warning">Save</button>
+                            <button type="submit" class="btn btn-outline-warning">Share</button>
                           </div>
                         </form>
                       </div>
@@ -869,7 +875,18 @@
           </div>
 </div>
       
-        
+<script>
+  function shareViaWhatsApp() {
+    // Replace 'Hello, this is a shared message!' with your desired message
+    var message = encodeURIComponent(window.location.href);
+
+    // Create the WhatsApp share link
+    var whatsappLink = 'https://wa.me/?text=' + message;
+
+    // Open the link in a new tab/window
+    window.open(whatsappLink, '_blank');
+  }
+</script>  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 <script>
   function exportToPDF(){
