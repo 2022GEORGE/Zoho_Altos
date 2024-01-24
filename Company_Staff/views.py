@@ -556,15 +556,15 @@ def employee_overview(request,pk):
         pay=payroll_employee.objects.filter(company=dash_details)
         allmodules= ZohoModules.objects.get(company=dash_details,status='New')
         p=payroll_employee.objects.get(id=pk)
-        comment_data=comment.objects.filter(login_details=log_details,employee=pk)
-        history=employee_history.objects.filter(login_details=log_details,employee=pk)
+        comment_data=payroll_employee_comment.objects.filter(employee=pk)
+        history=employee_history.objects.filter(employee=pk)
     if log_details.user_type =='Staff':
         dash_details = StaffDetails.objects.get(login_details=log_details)
         pay=payroll_employee.objects.filter(company=dash_details.company)
         allmodules= ZohoModules.objects.get(company=dash_details.company,status='New')
         p=payroll_employee.objects.get(id=pk)
-        comment_data=comment.objects.filter(login_details=log_details,employee=pk)
-        history=employee_history.objects.all()
+        comment_data=payroll_employee_comment.objects.filter(employee=pk)
+        history=employee_history.objects.filter(employee=pk)
     content = {
                 'details': dash_details,
                 'pay':pay,
@@ -1096,12 +1096,12 @@ def add_comment(request,pk):
             return redirect('/')
         log_details= LoginDetails.objects.get(id=log_id)
         payroll= payroll_employee.objects.get(id=pk) 
-        data=comment(comment=comment_data,login_details=log_details,employee=payroll)
+        data=payroll_employee_comment(comment=comment_data,login_details=log_details,employee=payroll)
         data.save()
         return redirect('employee_overview',pk)
     return redirect('employee_overview',pk)
 def delete_commet(request,pk,pi):
-    data=comment.objects.get(id=pk)
+    data=payroll_employee_comment.objects.get(id=pk)
     data.delete()
     return redirect('employee_overview',pi)
 def delete_employee(request,pk):

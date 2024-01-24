@@ -37,47 +37,36 @@
                 <div class="row mt-4">
                   <div class="col-sm flex-column">
                     <div class="row">
-                      <div class="col-sm">
+                      <div class="row">
                         <a class="text-white" style="font-size: 1.5rem;">Employees</a>
                       </div>
-                      <span class="row">
-                      <span class="col-lg-3 col-sm flex-column">
-                        <div class="dropdown">
-                        <a class="btn text-center px-4 pt-1 mt-1 btn-outline-warning" id="sortbutton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button" >
-                          <i  class="fas fa-sort "></i>
-                        </a>
-                        <div class="dropdown-menu m-1">
-                          <a class="dropdown-item" href="">All</a>
-                          <a class="dropdown-item" onclick="sortTable()">Employee Name</a>
-                          <a class="dropdown-item" onclick="sortTablebal()">Employee Salary</a>
+                      <div class="row">
+                        <div class="col-sm-3 col-lg-7">
+                          <input type="text" id="search" class="form-control bg-light text-dark " placeholder="Search.." autocomplete="off">
                         </div>
-                        </div>
-                      </span>
-                      <span class="col-md-6 col-lg-6 col-sm flex-column">      
-                        <div class="dropdown">
-                          <a class="btn text-center pt-1 mt-1 btn-outline-warning" id="filterbutton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button" >
-                            <i  class="fas fa-filter m-1"></i>
+                        <div class="col-sm-4 col-lg-5 " style="text-align: right; float: right;" >
+                          <a class="btn text-center  btn-outline-warning btn-sm" id="sortbutton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button" >
+                            <i  class="fas fa-sort "></i>
+                          </a>
+                          <div class="dropdown-menu m-1">
+                            <a class="dropdown-item" href="">All</a>
+                            <a class="dropdown-item" onclick="sortTable()">Employee Name</a>
+                            <a class="dropdown-item" onclick="sortTablebal()">Employee Salary</a>
+                          </div>
+                          <a class="btn text-center btn-outline-warning btn-sm" id="filterbutton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button" >
+                            <i  class="fas fa-filter "></i>
                           </a>
                           <div class="dropdown-menu m-1">
                             <a class="dropdown-item" onclick="applyFilter('All')">All</a>
                             <a class="dropdown-item" onclick="applyFilter('Active')">Active</a>
                             <a class="dropdown-item" onclick="applyFilter('Inactive')">Inactive</a>
                           </div>
-                        </div>      
-                      </span>  
-                      <span class="col-sm" >              
-                        <a class="btn btn btn-outline-warning " style="text-align: right;" href="{% url 'payroll_employee_create' %}"><i class="fa fa-plus "></i></a>
-                      </span>
-
-                    </span>
-
-                      </div>
-                      <div class="row">
-                        <div class="col-md-12 col-sm-12 col-lg-12 flex-column">
-                          <input type="text" id="search" class="form-control bg-light text-dark mt-2 " placeholder="Search.." autocomplete="off">
+                          <a class="btn btn btn-outline-warning btn-sm " style="text-align: right;" href="{% url 'payroll_employee_create' %}"><i class="fa fa-plus "></i></a>
                         </div>
+                      </div> 
+                      </div>
                       
-                    </div>
+                  
                     <div class="row">
                       <div class="table-responsive scrollable-table" >
                         <table class="table  text-white" id="myTable">
@@ -109,39 +98,39 @@
                       </div>
                       <div class="row">
                         <div class="col-md-2" >
-                          <a class="btn bg-warning text-light" ><i class="fas fa-eye"></i> Overview</a>
+                          <a class="btn bg-warning text-light btn-sm" ><i class="fas fa-eye"></i> Overview</a>
                         </div>
                         <div class="col-md-10 col-lg-10 col-sm-12" style="text-align: right; ">
                           <a href="{% url 'payroll_employee_edit' p.id %}"  class=" text-dark" >
-                            <button class="btn btn-outline-warning"  title="Edit"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-outline-warning btn-sm"  title="Edit"><i class="fas fa-edit"></i></button>
                           </a>
                           <a  class="text-dark"  onclick="exportToPDF()" id="pdflink">
-                            <button class="btn btn-outline-warning"  title="Pdf"><i class="fa-solid fa-file-pdf"></i></button>
+                            <button class="btn btn-outline-warning btn-sm"  title="Pdf"><i class="fa-solid fa-file-pdf"></i></button>
                           </a>
                           <a class=" text-dark"  onclick="printSelectedArea()"  >
-                            <button class="btn btn-outline-warning"  title="Print"> <i class="fas fa-print"></i> </button> 
+                            <button class="btn btn-outline-warning btn-sm"  title="Print"> <i class="fas fa-print"></i> </button> 
                           </a>
-                          <a class="btn btn-outline-warning" href="" data-toggle="modal" data-target="#commentModal" data-toggle="tooltip" title="comment">
+                          <a class="btn btn-outline-warning btn-sm" href="" data-toggle="modal" data-target="#commentModal" data-toggle="tooltip" title="comment">
                             <i class="far fa-comment"></i>
                           </a>
                           {% if p.uploaded_file %}
                           <a class="text-dark" href="{{ p.uploaded_file.url }}" download>
-                            <button class="btn btn-outline-warning" title="download"><i class="fas fa-download"></i></button>
+                            <button class="btn btn-outline-warning btn-sm" title="download"><i class="fas fa-download"></i></button>
                         </a>
                           {% else %}
-                          <a class="btn btn-outline-warning" href="" data-toggle="modal" title="upload" data-target="#commentModal3" data-toggle="tooltip" title="comment">
+                          <a class="btn btn-outline-warning btn-sm" href="" data-toggle="modal" title="upload" data-target="#commentModal3" data-toggle="tooltip" title="comment">
                             <i class="fa-solid fa-upload"></i>
                           </a>
                           {% endif %}
                         
                           <a href="{% url 'delete_employee' p.id %}" class="  text-dark" >
-                            <button class="btn btn-outline-warning"  title="Delete"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-outline-warning btn-sm"  title="Delete"><i class="fas fa-trash-alt"></i></button>
                           </a>
-                          <a class="btn btn-outline-warning" href="{% url 'employee_status' p.id %}" id="sts">{{p.status}}</a>
-                          <a class="btn btn-outline-warning" href="" data-toggle="modal" data-target="#commentModal2" data-toggle="tooltip" title="history">
+                          <a class="btn btn-outline-warning btn-sm" href="{% url 'employee_status' p.id %}" id="sts">{{p.status}}</a>
+                          <a class="btn btn-outline-warning btn-sm" href="" data-toggle="modal" data-target="#commentModal2" data-toggle="tooltip" title="history">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                           </a>
-                            <a class="btn btn-outline-warning dropdown-toggle" href="#" role="button" title="share" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="btn btn-outline-warning dropdown-toggle btn-sm" href="#" role="button" title="share" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               <i class="fa-solid fa-share-nodes"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -153,7 +142,7 @@
                       </div><br>
             
                       <div id="printdiv" style="color:black;" >
-                        <div class="row " id="div-to-pdf" style="background-color: #c4c1c1fd; margin-left:1px; margin-right: 1rem; ">
+                        <div class="row " id="div-to-pdf" style="background-color: #acaaaafd; margin-left:1px; margin-right: 1rem; ">
                           <br>
                           <div class="row">
                             <div class="col-3 mt-3" >
@@ -325,7 +314,7 @@
                                   </div>
                                 </div>
                               {% endif %}
-              
+                                {% if isTDS %}
                               <div class="row mt-2">
                                 <div class="col-1"></div>
                                 <div class="col-5"><p for="">TDS Applicable :</p></div>
@@ -334,7 +323,6 @@
                                 </div>
                               </div>
               
-                              {% if p.isTDS != 'No' %}
                                 <div class="row mt-2">
                                   <div class="col-1"></div>
                                   <div class="col-5"><p for="">TDS Amount :</p></div>
@@ -565,7 +553,7 @@
                         <form action="{% url 'shareemail' p.id %}" method="POST" enctype="multipart/form-data">
                           {% csrf_token %}
                           <div class="modal-body">
-                            <input type="email" name="email" required class="form-control">
+                            <input type="email" name="email" required style="color:white;" class="form-control">
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Close</button>

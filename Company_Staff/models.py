@@ -55,7 +55,7 @@ class employee_history(models.Model):
     Action=models.CharField(null=True,max_length=255)
 class Bloodgroup(models.Model):
     Blood_group=models.CharField(max_length=255,null=True)
-class comment(models.Model):
+class payroll_employee_comment(models.Model):
     comment=models.CharField(null=True,max_length=255)
     login_details=models.ForeignKey(LoginDetails,on_delete=models.CASCADE,null=True)
     employee=models.ForeignKey(payroll_employee,on_delete=models.CASCADE,null=True)
